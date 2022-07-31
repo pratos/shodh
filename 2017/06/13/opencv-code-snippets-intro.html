@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Understanding OpenCV - Code Snippets | prthamesh’s blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Understanding OpenCV - Code Snippets" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I made a jump directly to Computer Vision by using Deep Learning, mostly using CNNs &amp; Keras. CNN &amp; Keras are like Adam West’s Batman &amp; Burt Ward’s Robin, much simpler &amp; fun days of the bat vigilante." />
+<meta property="og:description" content="I made a jump directly to Computer Vision by using Deep Learning, mostly using CNNs &amp; Keras. CNN &amp; Keras are like Adam West’s Batman &amp; Burt Ward’s Robin, much simpler &amp; fun days of the bat vigilante." />
+<link rel="canonical" href="https://blog.shodh.co/2017/06/13/opencv-code-snippets-intro.html" />
+<meta property="og:url" content="https://blog.shodh.co/2017/06/13/opencv-code-snippets-intro.html" />
+<meta property="og:site_name" content="prthamesh’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-06-13T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Understanding OpenCV - Code Snippets" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2017-06-13T00:00:00-05:00","datePublished":"2017-06-13T00:00:00-05:00","description":"I made a jump directly to Computer Vision by using Deep Learning, mostly using CNNs &amp; Keras. CNN &amp; Keras are like Adam West’s Batman &amp; Burt Ward’s Robin, much simpler &amp; fun days of the bat vigilante.","headline":"Understanding OpenCV - Code Snippets","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.shodh.co/2017/06/13/opencv-code-snippets-intro.html"},"url":"https://blog.shodh.co/2017/06/13/opencv-code-snippets-intro.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.shodh.co/feed.xml" title="prthamesh's blog" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">prthamesh&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Understanding OpenCV - Code Snippets</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2017-06-13T00:00:00-05:00" itemprop="datePublished">
+        Jun 13, 2017
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      23 min read
+    
+</span></p>
+
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>I made a jump directly to Computer Vision by using Deep Learning, mostly using CNNs &amp; Keras. CNN &amp; Keras are like Adam West’s Batman &amp; Burt Ward’s Robin, much simpler &amp; fun days of the bat vigilante.</p>
+
+<p><span> </span></p>
+<div align="center"><img src="https://www.themarysue.com/wp-content/uploads/2016/08/Batman-and-Robin.jpg" height="600px" width="400px" /></div>
+<div align="center"><h4>Source: The Mary Sue</h4></div>
+
+<p>But with a lot of image pre-processing (apart from Keras’ own functions) crucial to the final output, I searched for a good library to do it. <code class="language-plaintext highlighter-rouge">skimage</code> is a great library for doing image pre-processing. It packs enough to get you started, but the most widely used is <code class="language-plaintext highlighter-rouge">OpenCV</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">OpenCV</code> has a bit of steep learning curve, but once you get used to it there’s no feeling like any other. While preparing this notebook, I never intended it to be a blogpost. Things started off with creating snippets off the official library &amp; with inputs from blogposts by <a href="http://www.pyimagesearch.com/">PyImageSearch</a> which is frankly the most comprehensive blog for Computer Vision. Let’s dive into the actual notebook.</p>
+
+<hr />
+
+<h3 id="downloading-the-image">Downloading the image</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">curl</span> <span class="s">"https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/screenshot1.png"</span> <span class="o">&gt;</span> <span class="n">screeshot</span><span class="p">.</span><span class="n">png</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 74844  100 74844    0     0  73184      0  0:00:01  0:00:01 --:--:-- 78866
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">ls</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Amazon Kaggle EDA.ipynb			      Pre Processing Notebook.ipynb
+Image Processing using OpenCV - Part 1.ipynb  screeshot.png
+</code></pre></div></div>
+
+<hr />
+<h3 id="import-the-image-through-opencv">Import the image through OpenCV</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">signal</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Open an image using cv2.imread()
+    <ul>
+      <li>Import a color image: cv2.IMREAD_COLOR (arg = 1)</li>
+      <li>Import a color image: cv2.IMREAD_GREYSCALE (arg = 0)</li>
+      <li>Import a color image: cv2.IMREAD_UNCHANGED (arg = -1)</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">screen_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">imread</span><span class="p">(</span><span class="s">'./screeshot.png'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">screen_img</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">([]),</span> <span class="n">plt</span><span class="p">.</span><span class="n">yticks</span><span class="p">([])</span>  <span class="c1"># to hide tick values on X and Y axis
+</span><span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_8_0.png" alt="png" /></p>
+
+<h3 id="drawing-shapes-on-an-image">Drawing shapes on an image</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Create a black image
+</span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">512</span><span class="p">,</span><span class="mi">512</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="n">uint8</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Draw a diagonal white line with thickness of 6 px
+</span><span class="n">cv2</span><span class="p">.</span><span class="n">line</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="mi">511</span><span class="p">,</span><span class="mi">511</span><span class="p">),(</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">),</span><span class="mi">6</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([[[255, 255, 255],
+        [255, 255, 255],
+        [255, 255, 255],
+        ..., 
+        [  0,   0,   0],
+        [  0,   0,   0],
+        [  0,   0,   0]],
+
+       [[255, 255, 255],
+        [255, 255, 255],
+        [255, 255, 255],
+        ..., 
+        [  0,   0,   0],
+        [  0,   0,   0],
+        [  0,   0,   0]],
+
+       [[255, 255, 255],
+        [255, 255, 255],
+        [255, 255, 255],
+        ..., 
+        [  0,   0,   0],
+        [  0,   0,   0],
+        [  0,   0,   0]],
+
+       ..., 
+       [[  0,   0,   0],
+        [  0,   0,   0],
+        [  0,   0,   0],
+        ..., 
+        [255, 255, 255],
+        [255, 255, 255],
+        [255, 255, 255]],
+
+       [[  0,   0,   0],
+        [  0,   0,   0],
+        [  0,   0,   0],
+        ..., 
+        [255, 255, 255],
+        [255, 255, 255],
+        [255, 255, 255]],
+
+       [[  0,   0,   0],
+        [  0,   0,   0],
+        [  0,   0,   0],
+        ..., 
+        [255, 255, 255],
+        [255, 255, 255],
+        [255, 255, 255]]], dtype=uint8)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c2ec681d0&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_12_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># cv2.rectangle(image, dim1-coordinates, dim2-coordinates, color, px size)
+</span><span class="n">cv2</span><span class="p">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">250</span><span class="p">),</span> <span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([[[255, 255, 255],
+        [255, 255, 255],
+        [255, 255, 255],
+        ..., 
+        [  0,   0,   0],
+        [  0,   0,   0],
+        [  0,   0,   0]],
+
+       [[255, 255, 255],
+        [255, 255, 255],
+        [255, 255, 255],
+        ..., 
+        [  0,   0,   0],
+        [  0,   0,   0],
+        [  0,   0,   0]],
+
+       [[255, 255, 255],
+        [255, 255, 255],
+        [255, 255, 255],
+        ..., 
+        [  0,   0,   0],
+        [  0,   0,   0],
+        [  0,   0,   0]],
+
+       ..., 
+       [[  0,   0,   0],
+        [  0,   0,   0],
+        [  0,   0,   0],
+        ..., 
+        [255, 255, 255],
+        [255, 255, 255],
+        [255, 255, 255]],
+
+       [[  0,   0,   0],
+        [  0,   0,   0],
+        [  0,   0,   0],
+        ..., 
+        [255, 255, 255],
+        [255, 255, 255],
+        [255, 255, 255]],
+
+       [[  0,   0,   0],
+        [  0,   0,   0],
+        [  0,   0,   0],
+        ..., 
+        [255, 255, 255],
+        [255, 255, 255],
+        [255, 255, 255]]], dtype=uint8)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c2ec48e10&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_14_1.png" alt="png" /></p>
+
+<h3 id="accessing-image-properties">Accessing Image properties</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">img</span><span class="p">.</span><span class="n">shape</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(512, 512, 3)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">type</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>numpy.ndarray
+</code></pre></div></div>
+
+<h3 id="image-roi-region-of-image">Image ROI (Region of Image)</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Getting google logo
+</span><span class="n">logo</span> <span class="o">=</span> <span class="n">screen_img</span><span class="p">[</span><span class="mi">200</span><span class="p">:</span><span class="mi">400</span><span class="p">,</span> <span class="mi">500</span><span class="p">:</span><span class="mi">900</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">logo</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c2e5264e0&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_20_1.png" alt="png" /></p>
+
+<h3 id="image-arithmatic">Image arithmatic</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">uint8</span><span class="p">([</span><span class="mi">250</span><span class="p">])</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([250], dtype=uint8)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">uint8</span><span class="p">([</span><span class="mi">10</span><span class="p">])</span>
+<span class="n">y</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([10], dtype=uint8)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span><span class="o">+</span><span class="n">y</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([4], dtype=uint8)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cv2</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([[255]], dtype=uint8)
+</code></pre></div></div>
+
+<p>There is a difference between OpenCV addition and Numpy addition. OpenCV addition is a saturated operation while Numpy addition is a modulo operation.</p>
+
+<h3 id="blending-2-images">Blending 2 images</h3>
+
+<p>It is a type of Image addition, but different weights are provided to the pixels (to add opaqueness/transparency).</p>
+
+<p>The equation is:</p>
+
+<p>$g(x)\;=\;(1-\alpha)f_{0}(x)\;+\;{\alpha}f_{1}(x)$</p>
+
+<p>Varying $\alpha$ from 0 $\rightarrow$ 1, we can change the blending.</p>
+
+<p>The operation is performed using <code class="language-plaintext highlighter-rouge">cv2.addWeighted()</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span> <span class="n">wget</span> <span class="s">"http://www.satupedia.com/wp-content/uploads/2017/03/arsenalb40ddb51f5f44099ae80dc5d7e1c59880524d72a24e0d4033ef4c60a39c7dcf1_large.jpg"</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>--2017-06-15 00:04:49--  http://www.satupedia.com/wp-content/uploads/2017/03/arsenalb40ddb51f5f44099ae80dc5d7e1c59880524d72a24e0d4033ef4c60a39c7dcf1_large.jpg
+Resolving www.satupedia.com (www.satupedia.com)... 45.32.102.146
+Connecting to www.satupedia.com (www.satupedia.com)|45.32.102.146|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 57840 (56K) [image/jpeg]
+Saving to: ‘arsenalb40ddb51f5f44099ae80dc5d7e1c59880524d72a24e0d4033ef4c60a39c7dcf1_large.jpg’
+
+arsenalb40ddb51f5f4 100%[===================&gt;]  56.48K   286KB/s    in 0.2s    
+
+2017-06-15 00:04:50 (286 KB/s) - ‘arsenalb40ddb51f5f44099ae80dc5d7e1c59880524d72a24e0d4033ef4c60a39c7dcf1_large.jpg’ saved [57840/57840]
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">wget</span> <span class="s">"http://upload.inven.co.kr/upload/2014/05/08/bbs/i3945135106.jpg"</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>--2017-06-15 00:04:52--  http://upload.inven.co.kr/upload/2014/05/08/bbs/i3945135106.jpg
+Resolving upload.inven.co.kr (upload.inven.co.kr)... 114.31.34.170
+Connecting to upload.inven.co.kr (upload.inven.co.kr)|114.31.34.170|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 445045 (435K) [image/jpeg]
+Saving to: ‘i3945135106.jpg’
+
+i3945135106.jpg     100%[===================&gt;] 434.61K   290KB/s    in 1.5s    
+
+2017-06-15 00:04:56 (290 KB/s) - ‘i3945135106.jpg’ saved [445045/445045]
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">mv</span> <span class="n">arsenalb40ddb51f5f44099ae80dc5d7e1c59880524d72a24e0d4033ef4c60a39c7dcf1_large</span><span class="p">.</span><span class="n">jpg</span> <span class="n">arsenal</span><span class="p">.</span><span class="n">jpg</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">mv</span> <span class="n">i3945135106</span><span class="p">.</span><span class="n">jpg</span> <span class="n">cesc</span><span class="p">.</span><span class="n">jpg</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">ls</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Amazon Kaggle EDA.ipynb  Image Processing using OpenCV - Part 1.ipynb
+arsenal.jpg		 Pre Processing Notebook.ipynb
+cesc.jpg		 screeshot.png
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">img1</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">imread</span><span class="p">(</span><span class="s">'arsenal.jpg'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">img2</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">imread</span><span class="p">(</span><span class="s">'cesc.jpg'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c2e4f8240&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_35_1.png" alt="png" /></p>
+
+<p><strong>Why is this Blue?</strong></p>
+
+<ul>
+  <li>OpenCV represents RGB images as multi-dimensional NumPy arrays…but in reverse order! This means that images are actually represented in BGR order rather than RGB!</li>
+</ul>
+
+<p><strong>How to change it?</strong></p>
+
+<ul>
+  <li>Convert BGR $\rightarrow$ RGB</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img1</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c2c0c2cf8&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_37_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img2</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c2c089908&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_38_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">img1</span><span class="p">.</span><span class="n">shape</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(575, 1024, 3)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">img2</span><span class="p">.</span><span class="n">shape</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(798, 1200, 3)
+</code></pre></div></div>
+
+<p>We have a problem here, so let’s resize <code class="language-plaintext highlighter-rouge">img2</code> using <code class="language-plaintext highlighter-rouge">cv2.resize</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">img2_resize</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img2</span><span class="p">,</span> <span class="p">(</span><span class="n">img1</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">img1</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img2_resize</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c2c059898&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_43_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">img2_resize</span><span class="p">.</span><span class="n">shape</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(575, 1024, 3)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">blended</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">addWeighted</span><span class="p">(</span><span class="n">img1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">img2_resize</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">blended</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1ff83d30&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_46_1.png" alt="png" /></p>
+
+<p>Who needs photoshop now! Just kidding, but it is fun little way to do interesting things in OpenCV. We’ll take a look at it more.</p>
+
+<h3 id="bitwise-operations">Bitwise operations</h3>
+
+<p>Next up we would try to extract the Google Logo from image <code class="language-plaintext highlighter-rouge">img</code>, resize it and put it on top of the <code class="language-plaintext highlighter-rouge">blended</code> image</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Finding the Region of Image for the logo that we already have!
+</span><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">logo</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1ff4c1d0&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_50_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">channels</span> <span class="o">=</span> <span class="n">logo</span><span class="p">.</span><span class="n">shape</span>
+<span class="n">roi</span> <span class="o">=</span> <span class="n">blended</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">rows</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">cols</span><span class="p">]</span> <span class="c1">#Putting it in the left hand side of the image
+</span></code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">roi</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1ff1a438&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_52_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Convert it to color first
+</span><span class="n">logo</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">logo</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">logo</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1fee7ef0&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_54_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">logo2gray</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">logo</span><span class="p">,</span><span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">((</span><span class="n">logo2gray</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1feba828&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_56_1.png" alt="png" /></p>
+
+<p>Doesn’t give anything, well threshold are hard to determine manually</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># initialize the list of threshold methods
+</span><span class="n">methods</span> <span class="o">=</span> <span class="p">[</span>
+	<span class="p">(</span><span class="s">"THRESH_BINARY"</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">THRESH_BINARY</span><span class="p">),</span>
+	<span class="p">(</span><span class="s">"THRESH_BINARY_INV"</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">THRESH_BINARY_INV</span><span class="p">),</span>
+	<span class="p">(</span><span class="s">"THRESH_TRUNC"</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">THRESH_TRUNC</span><span class="p">),</span>
+	<span class="p">(</span><span class="s">"THRESH_TOZERO"</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">THRESH_TOZERO</span><span class="p">),</span>
+	<span class="p">(</span><span class="s">"THRESH_TOZERO_INV"</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">THRESH_TOZERO_INV</span><span class="p">)]</span>
+ 
+<span class="c1"># loop over the threshold methods
+</span><span class="k">for</span> <span class="p">(</span><span class="n">threshName</span><span class="p">,</span> <span class="n">threshMethod</span><span class="p">)</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+	<span class="c1"># threshold the image and show it
+</span>	<span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">thresh</span><span class="p">)</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">logo2gray</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">threshMethod</span><span class="p">)</span>
+	<span class="n">cv2</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">threshName</span><span class="p">,</span> <span class="n">thresh</span><span class="p">)</span>
+	<span class="n">cv2</span><span class="p">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>If you see, the THRESH_TOZERO is way better so we’ll use that.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#Create its mask
+# cv2.threshold(src, thresh, maxval, type)
+</span><span class="n">ret</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">logo2gray</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">THRESH_BINARY_INV</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"--------------------"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mask</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>200.0
+--------------------
+AxesImage(54,36;334.8x217.44)
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_60_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mask_inv</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">bitwise_not</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mask</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AxesImage(54,36;334.8x217.44)
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_61_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Blackout the area of logo in ROI
+</span><span class="n">logo_bg</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">roi</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask_inv</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">logo_b</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">roi</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">logo_bg</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1fdaf160&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_64_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">logo_b</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1fd7b9e8&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_65_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Take only region of logo from logo image.
+</span><span class="n">img2_fg</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">logo_bg</span><span class="p">,</span><span class="n">logo_bg</span><span class="p">,</span><span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">img2_fg</span><span class="p">.</span><span class="n">shape</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(200, 400, 3)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img2_fg</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1fcce208&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_68_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">final</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">img2_fg</span><span class="p">,</span> <span class="n">logo_bg</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">final</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1fc9dcc0&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_69_1.png" alt="png" /></p>
+
+<p>Adding the logo to our blended image (inside the ROI)</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">blended</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">rows</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">final</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">blended</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1fc6f3c8&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_72_1.png" alt="png" /></p>
+
+<h2 id="image-processing">Image Processing</h2>
+
+<h3 id="changing-colorspaces">Changing Colorspaces</h3>
+
+<p>Convert images from one color space to another, BGR $\leftrightarrow$ Gray or BGR $\leftrightarrow$ HSV. Useful, when extracting a colored image from a video feed or image.</p>
+
+<p><strong>Reads:</strong></p>
+<ol>
+  <li><a href="https://en.wikipedia.org/wiki/HSL_and_HSV">HSV &amp; HSL</a></li>
+  <li><a href="https://www.thoughtco.com/what-is-hsv-in-design-1078068">Why HSV for object detection</a></li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span> <span class="n">curl</span> <span class="s">"https://fsmedia.imgix.net/9f/50/d1/5b/6c4e/419a/800e/e942305776e7/imagenes-de-power-rangers-furia-animaljpg.jpeg"</span> <span class="o">&gt;</span> <span class="n">power_rangers</span><span class="p">.</span><span class="n">jpg</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  339k  100  339k    0     0   225k      0  0:00:01  0:00:01 --:--:--  285k
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">color_sample</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">imread</span><span class="p">(</span><span class="s">'power_rangers.jpg'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">color_sample</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1fe27fd0&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_76_1.png" alt="png" /></p>
+
+<p>What we have to do here is to detect the Red Power Ranger. To detect the color, we need to define the colors in HSV (define boundary values).</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">boundaries</span> <span class="o">=</span> <span class="p">[([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">255</span><span class="p">]),</span> <span class="p">([</span><span class="mi">86</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">220</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">50</span><span class="p">]),</span> <span class="p">([</span><span class="mi">25</span><span class="p">,</span> <span class="mi">146</span><span class="p">,</span> <span class="mi">190</span><span class="p">],</span> <span class="p">[</span><span class="mi">62</span><span class="p">,</span> <span class="mi">174</span><span class="p">,</span> <span class="mi">250</span><span class="p">]),</span> \
+             <span class="p">([</span><span class="mi">103</span><span class="p">,</span> <span class="mi">86</span><span class="p">,</span> <span class="mi">65</span><span class="p">],</span> <span class="p">[</span><span class="mi">145</span><span class="p">,</span> <span class="mi">133</span><span class="p">,</span> <span class="mi">128</span><span class="p">])]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">boundaries</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[0, 0, 50]
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># We need to convert the boundaries to numpy arrays
+</span><span class="n">lower</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">boundaries</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">'uint8'</span><span class="p">)</span>
+<span class="n">upper</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">boundaries</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">'uint8'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># We'll find the mask
+</span><span class="n">mask</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">inRange</span><span class="p">(</span><span class="n">color_sample</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1fe65b70&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_82_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">output</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">color_sample</span><span class="p">,</span> <span class="n">color_sample</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1fc35cf8&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_84_1.png" alt="png" /></p>
+
+<p>After the red ranger, let’s try to find out the blue ranger.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">blue_lower</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mi">86</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">'uint8'</span><span class="p">)</span>
+<span class="n">blue_upper</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mi">255</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">120</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">'uint8'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mask_blue</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">inRange</span><span class="p">(</span><span class="n">color_sample</span><span class="p">,</span> <span class="n">blue_lower</span><span class="p">,</span> <span class="n">blue_upper</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mask_blue</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1fb84588&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_88_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">output_blue</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">color_sample</span><span class="p">,</span> <span class="n">color_sample</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask_blue</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">output_blue</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1fb6e0f0&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_90_1.png" alt="png" /></p>
+
+<h3 id="image-thresholding">Image Thresholding</h3>
+
+<p>In the 1st example (the Arsenal blending), we saw how image can be thresholded manually. In this we’ll look at other means of thresholding.</p>
+
+<ul>
+  <li><strong>Adaptive Thresholding</strong></li>
+</ul>
+
+<p>Using a global value as a threshold doesn’t cut out for real world applications. There are various factors that we need to look in and understand before understanding things.</p>
+
+<p>The algorithm calculate the threshold for a small regions of the image. So we get different thresholds for different regions of the same image and it gives us better results for images with varying illumination.</p>
+
+<p>It has three ‘special’ input params and only one output argument.</p>
+
+<ul>
+  <li><strong>Adaptive Method - It decides how thresholding value is calculated.</strong>
+    <ul>
+      <li>cv2.ADAPTIVE_THRESH_MEAN_C : threshold value is the mean of neighbourhood area.</li>
+      <li>cv2.ADAPTIVE_THRESH_GAUSSIAN_C : threshold value is the weighted sum of neighbourhood values where weights are a gaussian window.</li>
+    </ul>
+  </li>
+  <li><strong>Block Size - It decides the size of neighbourhood area.</strong></li>
+  <li><strong>C - It is just a constant which is subtracted from the mean or weighted mean calculated.</strong></li>
+</ul>
+
+<p>Let’s look at an example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">curl</span> <span class="s">"https://upload.wikimedia.org/wikipedia/commons/0/0b/ReceiptSwiss.jpg"</span> <span class="o">&gt;</span> <span class="n">receipt</span><span class="p">.</span><span class="n">jpg</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  940k  100  940k    0     0   244k      0  0:00:03  0:00:03 --:--:--  252k
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">receipt</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">imread</span><span class="p">(</span><span class="s">'receipt.jpg'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">60</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">receipt</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1fadda20&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_96_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">receipt</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">medianBlur</span><span class="p">(</span><span class="n">receipt</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">receipt</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">receipt</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Using gloal threshold
+</span><span class="n">ret</span><span class="p">,</span> <span class="n">th1</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">receipt</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">THRESH_BINARY</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">th2</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">adaptiveThreshold</span><span class="p">(</span><span class="n">receipt</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">ADAPTIVE_THRESH_MEAN_C</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">THRESH_BINARY</span><span class="p">,</span><span class="mi">115</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">th3</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">adaptiveThreshold</span><span class="p">(</span><span class="n">receipt</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="n">cv2</span><span class="p">.</span><span class="n">ADAPTIVE_THRESH_GAUSSIAN_C</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">THRESH_BINARY</span><span class="p">,</span><span class="mi">115</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">titles</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Original Image'</span><span class="p">,</span> <span class="s">'Global Thresholding (v = 127)'</span><span class="p">,</span>
+            <span class="s">'Adaptive Mean Thresholding'</span><span class="p">,</span> <span class="s">'Adaptive Gaussian Thresholding'</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">images</span> <span class="o">=</span> <span class="p">[</span><span class="n">receipt</span><span class="p">,</span> <span class="n">th1</span><span class="p">,</span> <span class="n">th2</span><span class="p">,</span> <span class="n">th3</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">60</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">th1</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1f9af4e0&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_104_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">60</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">th2</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1f918be0&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_105_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">60</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">th3</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1f8871d0&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_106_1.png" alt="png" /></p>
+
+<h3 id="geometric-transformation-of-images">Geometric Transformation of Images</h3>
+
+<ul>
+  <li><strong>Scaling</strong></li>
+</ul>
+
+<p>Scaling is just resizing of the image. OpenCV comes with a function cv2.resize() for this purpose. The size of the image can be specified manually, or you can specify the scaling factor.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">curl</span> <span class="s">"http://vignette4.wikia.nocookie.net/dragonball/images/4/4b/VegetaItsOver9000-02.png/revision/latest?cb=20100724145819"</span> <span class="o">&gt;</span> <span class="n">vegeta</span><span class="p">.</span><span class="n">png</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  310k  100  310k    0     0    99k      0  0:00:03  0:00:03 --:--:--  129k
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vegeta</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">imread</span><span class="p">(</span><span class="s">'vegeta.png'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vegeta</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">vegeta</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">vegeta</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1f86b3c8&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_112_1.png" alt="png" /></p>
+
+<p>Vegeta is angry coz Goku’s power levels are <strong>OVER 9000!</strong> and also the image is too big. Let’s do transform to resize him.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Image shape::
+</span><span class="n">vegeta</span><span class="p">.</span><span class="n">shape</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(480, 640, 3)
+</code></pre></div></div>
+
+<p>We’ll reduce the dimensions to 200x300, keeping the channels same.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">re1</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">vegeta</span><span class="p">,</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">cv2</span><span class="p">.</span><span class="n">INTER_CUBIC</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">re1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1f7d2630&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_117_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">re1</span><span class="p">.</span><span class="n">shape</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(100, 200, 3)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">re2</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">vegeta</span><span class="p">,</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">cv2</span><span class="p">.</span><span class="n">INTER_AREA</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">re1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1f741748&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_119_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">re2</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">vegeta</span><span class="p">,</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">cv2</span><span class="p">.</span><span class="n">INTER_LINEAR</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">re1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1f72f4e0&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_120_1.png" alt="png" /></p>
+
+<p>Looks more scary now though!</p>
+
+<h3 id="translation">Translation</h3>
+
+<p>Translation is the shifting of object’s location. If you know the shift in (x,y) direction, let it be $(t_{x},t_{y})$, you can create the transformation matrix $\textbf{M}$ as follows:</p>
+
+<p>$M = \begin{bmatrix} 1 &amp; 0 &amp; t_x \ 0 &amp; 1 &amp; t_y  \end{bmatrix}$</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">160</span><span class="p">]])</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">final_form</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">warpAffine</span><span class="p">(</span><span class="n">vegeta</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="p">(</span><span class="n">vegeta</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">vegeta</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">final_form</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1f0e8048&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_126_1.png" alt="png" /></p>
+
+<h3 id="affine-transformation">Affine Transformation</h3>
+
+<p>In affine transformation, all parallel lines in the original image will still be parallel in the output image.</p>
+
+<h3 id="perspective-transformation">Perspective Transformation</h3>
+
+<p>A great read would be - <a href="http://www.pyimagesearch.com/2014/08/25/4-point-opencv-getperspective-transform-example/">this blog</a>. Explains how perspective transformation works. We have seen Perspective transformation used in document scanners on our phones, neat application.</p>
+
+<h3 id="smoothing-images">Smoothing Images</h3>
+
+<ul>
+  <li>To blur images using low pass filters</li>
+  <li>Applying custom made filters to images (2D Convolution)</li>
+</ul>
+
+<p><strong>2D Convolution or Image Filtering</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">cv2.filter2D()</code> to convolve an image!</p>
+
+<blockquote>
+  <p>Definition of <code class="language-plaintext highlighter-rouge">convolution</code>: <em>coil or twist</em>.</p>
+</blockquote>
+
+<blockquote>
+  <p>Mathematically, convolution is a mathematical operation on two functions (f and g); it produces a third function, that is typically viewed as a modified version of one of the original functions, giving the integral of the pointwise multiplication of the two functions as a function of the amount that one of the original functions is translated.</p>
+</blockquote>
+
+<div align="center"><img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Comparison_convolution_correlation.svg" height="400px;" width="400px;" /></div>
+<p><span> </span>
+<span> </span></p>
+
+<p>In <em>Image processing</em>, we would see how <code class="language-plaintext highlighter-rouge">convolution</code> works!</p>
+
+<p>Consider the Google Logo:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">logo</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1f0507f0&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_134_1.png" alt="png" /></p>
+
+<p>We always need to define a <em>kernel</em>, it is a small tool that moves through the entire image so that we get the required transformed image. Read this <a href="http://setosa.io/ev/image-kernels/">Setosa.io</a> blog that explains <em>kernels</em> in an intuitive way</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span><span class="o">/</span><span class="mi">25</span>
+<span class="k">print</span><span class="p">(</span><span class="n">kernel</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[[ 0.04  0.04  0.04  0.04  0.04]
+ [ 0.04  0.04  0.04  0.04  0.04]
+ [ 0.04  0.04  0.04  0.04  0.04]
+ [ 0.04  0.04  0.04  0.04  0.04]
+ [ 0.04  0.04  0.04  0.04  0.04]]
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Applying the Kernel over the logo, simple box blur
+</span><span class="n">logo_blur</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">filter2D</span><span class="p">(</span><span class="n">logo</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">logo_blur</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1efca198&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_138_1.png" alt="png" /></p>
+
+<p><strong>Image Blurring</strong></p>
+
+<p>This is useful to remove the noise. Removes the high frequency content(noise, edges) from images, resulting in edges being blurred when filter is applied.</p>
+
+<p>There are various types of blurring techniques.</p>
+
+<ul>
+  <li>
+    <p><strong>Averaging:</strong></p>
+
+    <p>Done by taking the average of all the pixels under kernel area and replaces the central element with this average. This is done by the function <code class="language-plaintext highlighter-rouge">cv2.blur()</code> or <code class="language-plaintext highlighter-rouge">cv2.boxFilter()</code>.</p>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">logo_avg_blur</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">blur</span><span class="p">(</span><span class="n">logo</span><span class="p">,</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">logo_avg_blur</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1efbd7b8&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_140_1.png" alt="png" /></p>
+
+<ul>
+  <li>
+    <p><strong>Gaussian Blur:</strong></p>
+
+    <p>Below is a Gaussian Kernel (<a href="http://www.aishack.in/tutorials/image-convolution-examples/">source</a>)</p>
+
+    <div align="center"><img src="http://www.aishack.in/static/img/tut/conv-gaussian-blur.jpg" /></div>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">logo_gauss</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">GaussianBlur</span><span class="p">(</span><span class="n">logo</span><span class="p">,</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">logo_gauss</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1ef35198&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_142_1.png" alt="png" /></p>
+
+<ul>
+  <li>
+    <p><strong>Median Filtering:</strong></p>
+
+    <p>Computes the median of all the pixels under the kernel window &amp; the central pixel is replaced by the median value. Highly effective in removing salt-and-pepper noise.</p>
+  </li>
+</ul>
+
+<p>We’ll first download an image having salt-and-pepper noise:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">curl</span> <span class="s">"https://upload.wikimedia.org/wikipedia/commons/f/f4/Noise_salt_and_pepper.png"</span> <span class="o">&gt;</span> <span class="n">sp</span><span class="p">.</span><span class="n">png</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 82829  100 82829    0     0  39024      0  0:00:02  0:00:02 --:--:-- 51703
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sp</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">imread</span><span class="p">(</span><span class="s">'sp.png'</span><span class="p">)</span>
+<span class="n">sp_median</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">medianBlur</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">sp</span><span class="p">),</span><span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Salt &amp; Pepper'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">([]),</span> <span class="n">plt</span><span class="p">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">sp_median</span><span class="p">),</span><span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Processed'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">([]),</span> <span class="n">plt</span><span class="p">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_145_0.png" alt="png" /></p>
+
+<ul>
+  <li>
+    <p><strong>Bilateral Filtering:</strong></p>
+
+    <p>The previous 2 approaches remove the noise as well as the edges. <em>Bilateral Filtering</em> does the noise removal, but it keeps the edges. We’ll compare the three images (with noise, Gaussian &amp; Bilateral) side by side, to check the differences.</p>
+  </li>
+</ul>
+
+<p>Downloading the image:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">curl</span> <span class="s">"https://upload.wikimedia.org/wikipedia/commons/d/d2/512x512-Gaussian-Noise.jpg"</span> <span class="o">&gt;</span> <span class="n">gauss</span><span class="p">.</span><span class="n">jpg</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 94314  100 94314    0     0  50518      0  0:00:01  0:00:01 --:--:-- 65541
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gauss</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">imread</span><span class="p">(</span><span class="s">'gauss.jpg'</span><span class="p">)</span>
+<span class="n">gauss_gauss</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">GaussianBlur</span><span class="p">(</span><span class="n">gauss</span><span class="p">,</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="c1">#bilateralFilter(input array (image), output array, diameter of pixel neighbour hood, sigmaColor, sigmaSpace)
+</span><span class="n">gauss_bilateral</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">bilateralFilter</span><span class="p">(</span><span class="n">gauss</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">75</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">gauss</span><span class="p">),</span><span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Original with noise'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">([]),</span> <span class="n">plt</span><span class="p">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">gauss_gauss</span><span class="p">),</span><span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Gaussian Filter'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">([]),</span> <span class="n">plt</span><span class="p">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">gauss_bilateral</span><span class="p">),</span><span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Bilateral Filter'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">([]),</span> <span class="n">plt</span><span class="p">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_149_0.png" alt="png" /></p>
+
+<p>As you ca see, the <em>Bilateral Filter</em> doesn’t have hazy edges like the <em>Gaussian</em>.</p>
+
+<h3 id="morphological-transformation">Morphological Transformation</h3>
+
+<p>Morphological Transformations are basically playing with the shape of the original image, manipulating the internals of the image. There are 2 major operations: <strong>Erosion</strong> &amp; <strong>Dilation</strong>.</p>
+
+<ul>
+  <li>
+    <p><strong>Erosion:</strong></p>
+
+    <p>Similar to the erosion of banks of a river, we try to erode away boundaries of the foreground object.</p>
+
+    <p><img src="http://www.sciencehq.com/earth/images/soon-to-be-oxbow-lake.jpg" alt="Erosion" /></p>
+  </li>
+</ul>
+
+<p>The kernel slides through the image (as in 2D convolution). A pixel in the original image (either 1 or 0) will be considered 1 only if all the pixels under the kernel is 1, otherwise it is eroded (made to zero). It is advisable to have the foreground as white (for reasons above).</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">curl</span> <span class="s">"http://pad1.whstatic.com/images/thumb/e/ef/Divide-Double-Digits-Step-9-Version-5.jpg/aid281771-v4-728px-Divide-Double-Digits-Step-9-Version-5.jpg"</span> <span class="o">&gt;</span> <span class="n">digits</span><span class="p">.</span><span class="n">png</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 46846  100 46846    0     0  48692      0 --:--:-- --:--:-- --:--:-- 50644
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">digits</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">imread</span><span class="p">(</span><span class="s">'digits.png'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">digits</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1ee0c748&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_155_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">digits</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">digits</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">digits</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="p">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s">'gray'</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1ed45898&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_156_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ret</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">digits</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">THRESH_BINARY_INV</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1ee77fd0&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_157_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="n">eroded</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">erode</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">eroded</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1edce4a8&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_158_1.png" alt="png" /></p>
+
+<ul>
+  <li>
+    <p><strong>Dilation:</strong></p>
+
+    <p>You just make it fat! Remember the phrase, “Dilation of Pupil”.</p>
+
+    <p><img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Eye_dilate.gif" height="200px;" width="300px;" /></p>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="n">dilated</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">dilate</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">dilated</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1ecf5cc0&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_160_1.png" alt="png" /></p>
+
+<ul>
+  <li>
+    <p><strong>Opening &amp; Closing:</strong></p>
+
+    <p>Opening is just another name of erosion followed by dilation. It is useful in removing noise.</p>
+
+    <p>Closing is reverse of Opening, Dilation followed by Erosion. It is useful in closing small holes inside the foreground objects, or small black points on the object.</p>
+
+    <p>How do we remove noise? If we have white holes in the object as below:</p>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ret</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">THRESH_BINARY</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1ec670b8&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_162_1.png" alt="png" /></p>
+
+<p>We’ll apply <em>Opening</em> to the image.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">opening</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">morphologyEx</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">MORPH_OPEN</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">opening</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1ebdb4e0&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_164_1.png" alt="png" /></p>
+
+<p>As we can see above, there were still black dots inside the image that weren’t taken care of. We’ll do that using Closing</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">closing</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">morphologyEx</span><span class="p">(</span><span class="n">opening</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">MORPH_CLOSE</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">closing</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1eb4d940&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_166_1.png" alt="png" /></p>
+
+<p>The final outcome is disastrous, but you get the point right! Next in line is <em>Morphological Gradient</em>.</p>
+
+<ul>
+  <li>
+    <p><strong>Morphological Gradient</strong></p>
+
+    <p>Difference between dilation &amp; erosion of an image.</p>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ret</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">digits</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">THRESH_BINARY_INV</span><span class="p">)</span>
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="n">gradient</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">morphologyEx</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">MORPH_GRADIENT</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">),</span><span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Original'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">([]),</span> <span class="n">plt</span><span class="p">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">gradient</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">),</span><span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Morphological Gradient'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">([]),</span> <span class="n">plt</span><span class="p">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_169_0.png" alt="png" /></p>
+
+<h3 id="image-gradients">Image Gradients</h3>
+
+<div align="center"><img src="https://upload.wikimedia.org/wikipedia/commons/0/0f/Gradient2.svg" height="300px;" width="500px;" /></div>
+
+<blockquote>
+  <p>Image gradients can be used to extract information from images. Gradient images are created from the original image (generally by convolving with a filter, one of the simplest being the Sobel filter) for this purpose. Each pixel of a gradient image measures the change in intensity of that same point in the original image, in a given direction. To get the full range of direction, gradient images in the x and y directions are computed.</p>
+</blockquote>
+
+<blockquote>
+  <p>One of the most common uses is in edge detection. One example of an edge detection algorithm that uses gradients is the Canny edge detector.</p>
+</blockquote>
+
+<p>Consider the image, <code class="language-plaintext highlighter-rouge">receipt</code>, which we used previously.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">receipt</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1ea76c18&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_171_1.png" alt="png" /></p>
+
+<p><strong>1. Sobel &amp; Scharr Derivatives</strong></p>
+
+<p>$\textbf{Sobel Operators = Gaussian Smooting + Differentiation Operator}$</p>
+
+<p>In the image at the start of this topic, we can see the directions. These directions are specified by the <code class="language-plaintext highlighter-rouge">yorder</code> &amp; <code class="language-plaintext highlighter-rouge">xorder</code> (vertical &amp; horizontal respectively).</p>
+
+<p>Size of the kernel, <code class="language-plaintext highlighter-rouge">ksize</code> can be specified (any value, generally if <code class="language-plaintext highlighter-rouge">ksize=5</code> the kernel is 5x5).</p>
+
+<p>If <code class="language-plaintext highlighter-rouge">ksize=-1</code>, a Scharr filter is used (?)</p>
+
+<p><strong>2. Laplacian Derivatives</strong></p>
+
+<p>Laplacian of the image is given by: $\Delta src = \frac{\partial ^2{src}}{\partial x^2} + \frac{\partial ^2{src}}{\partial y^2}$</p>
+
+<p>Each derivative is found using <em>Sobel derivatives</em>.</p>
+
+<p><a href="http://www.cse.psu.edu/~rtc12/CSE486/lecture05_6pp.pdf">Reading</a></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">receipt</span><span class="p">,</span><span class="n">cmap</span> <span class="o">=</span> <span class="s">'gray'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Original'</span><span class="p">),</span> <span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">([]),</span> <span class="n">plt</span><span class="p">.</span><span class="n">yticks</span><span class="p">([])</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(&lt;matplotlib.text.Text at 0x7f3c1e9b8ba8&gt;,
+ ([], &lt;a list of 0 Text xticklabel objects&gt;),
+ ([], &lt;a list of 0 Text yticklabel objects&gt;))
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_173_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sobelx</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">Sobel</span><span class="p">(</span><span class="n">receipt</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">CV_8U</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ksize</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">sobelx</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_174_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sobely</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">Sobel</span><span class="p">(</span><span class="n">receipt</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">CV_16U</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ksize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">sobely</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_175_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">scharrx</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">Sobel</span><span class="p">(</span><span class="n">receipt</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">CV_16U</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ksize</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">scharrx</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_176_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">scharry</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">Sobel</span><span class="p">(</span><span class="n">receipt</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">CV_16U</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ksize</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">scharry</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_177_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">laplacian</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">Laplacian</span><span class="p">(</span><span class="n">receipt</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">CV_8U</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">laplacian</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_178_0.png" alt="png" /></p>
+
+<h3 id="canny-edge-detection">Canny Edge Detection</h3>
+
+<p>Canny Edge Detection is a popular edge detection algorithm. It was developed by John F. Canny in 1986. It is a multi-stage algorithm.</p>
+
+<p>It goes through the following stages:</p>
+
+<ol>
+  <li>
+    <p>Noise Reduction:</p>
+
+    <p>Edge detection, as in the previous few topics, we know that it is succeptible to noise. Canny Edge detector takes care of that.</p>
+  </li>
+  <li>
+    <p>Finding Intensity Gradient of the Image.</p>
+
+    <p>The image is then passed through Sobel filter, both in horizontal &amp; vertical direction.</p>
+  </li>
+  <li>
+    <p>Non-maximum suppression</p>
+
+    <p>(Difficult to explain)</p>
+  </li>
+  <li>
+    <p>Hysteresis Thresholding</p>
+
+    <p>This stage decides which are edges and which are not. This also removes small pixel noises on the assumption that the edges are along the lines.</p>
+  </li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">edge_receipt</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">Canny</span><span class="p">(</span><span class="n">receipt</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">edge_receipt</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_180_0.png" alt="png" /></p>
+
+<p>Probably, not a great image to do edge detection. Let’s look at detecting road lanes.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">curl</span> <span class="s">"http://www.richmondregional.org/images/monthly_flyer/September_2010_Graphics/DTE_ORT_lanes.jpg"</span> <span class="o">&gt;</span> <span class="n">road_lanes</span><span class="p">.</span><span class="n">jpg</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  496k  100  496k    0     0  78521      0  0:00:06  0:00:06 --:--:--  127k
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">road_lanes</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">imread</span><span class="p">(</span><span class="s">'road_lanes.jpg'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">road_lanes</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">road_lanes</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">road_lanes</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1e88a6a0&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_184_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">road_canny</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">Canny</span><span class="p">(</span><span class="n">road_lanes</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">'figure.figsize'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">road_canny</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_185_0.png" alt="png" /></p>
+
+<h3 id="contours">Contours</h3>
+
+<p>Contours by definition: <em>An outline representing or bounding the shape or form of something.</em></p>
+
+<p>In the above road lane detection, we got the threholded image. To create a boundary around it, we need the help of contours. <a href="http://www.aishack.in/tutorials/introduction-contours/">More reading</a></p>
+
+<p><a href="https://www2.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/index2.html">Berkley Computer Vision Group</a></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">curl</span> <span class="s">"https://www.echalk.co.uk/amusements/Games/Tetrominoes/shareIcons/shareIcon.jpg"</span> <span class="o">&gt;</span> <span class="n">tetris</span><span class="p">.</span><span class="n">jpg</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 30401  100 30401    0     0  17879      0  0:00:01  0:00:01 --:--:-- 19740
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tetris</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">imread</span><span class="p">(</span><span class="s">'tetris.jpg'</span><span class="p">)</span>
+<span class="n">tetris_gray</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">tetris</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+<span class="n">ret</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">tetris_gray</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">THRESH_BINARY_INV</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1eb1a470&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_188_1.png" alt="png" /></p>
+
+<p>We’ll get the blue blocks, for that we need to use <code class="language-plaintext highlighter-rouge">cv2.inRange()</code></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tetris_color</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">tetris</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">blue_lower</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">'uint8'</span><span class="p">)</span>
+<span class="n">blue_upper</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">'uint8'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mask_blue</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">inRange</span><span class="p">(</span><span class="n">tetris_color</span><span class="p">,</span> <span class="n">blue_lower</span><span class="p">,</span> <span class="n">blue_upper</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mask_blue</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1e790710&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_193_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">output</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">tetris_color</span><span class="p">,</span> <span class="n">tetris_color</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">mask_blue</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1e779e80&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_195_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">output</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1e6e84e0&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_196_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">output_gray</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_RGB2GRAY</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">output_gray</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1e651b00&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_197_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">_</span><span class="p">,</span> <span class="n">contours</span><span class="p">,</span> <span class="n">hierarchy</span>  <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">findContours</span><span class="p">(</span><span class="n">output_gray</span><span class="p">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">cv2</span><span class="p">.</span><span class="n">RETR_LIST</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">CHAIN_APPROX_SIMPLE</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cont_digits</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">drawContours</span><span class="p">(</span><span class="n">output</span><span class="p">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">contours</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cont_digits</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_200_0.png" alt="png" /></p>
+
+<h3 id="contour-features">Contour Features</h3>
+
+<p>In statistics, Moments are the quantitative measures to define data points. The moments defined are:</p>
+
+<ul>
+  <li>Total Probability (Zeroth moment)</li>
+  <li>Mean (1st moment)</li>
+  <li>Variance (2nd moment)</li>
+  <li>Skewness (3rd moment)</li>
+  <li>Kurtosis (4th moment)</li>
+</ul>
+
+<p>Image moments helps us to create features: center of mass of object, area of the object.</p>
+
+<p>We already have to contours from the above image, calculating the moments.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">curl</span> <span class="s">"http://vignette3.wikia.nocookie.net/marvel_dc/images/d/df/Flash_Logo_01.png/revision/latest?cb=20140529051349"</span> <span class="o">&gt;</span> <span class="n">flash</span><span class="p">.</span><span class="n">png</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  143k  100  143k    0     0   148k      0 --:--:-- --:--:-- --:--:--  161k
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">flash</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">imread</span><span class="p">(</span><span class="s">'flash.png'</span><span class="p">)</span>
+<span class="n">flash</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">flash</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">flash</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1e5ad7b8&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_204_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">flash_gray</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">flash</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_RGB2GRAY</span><span class="p">)</span>
+<span class="n">ret</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">flash_gray</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">THRESH_BINARY_INV</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1e526080&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_205_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">_</span><span class="p">,</span> <span class="n">contours</span><span class="p">,</span> <span class="n">hierarchy</span>  <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">findContours</span><span class="p">(</span><span class="n">mask</span><span class="p">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">cv2</span><span class="p">.</span><span class="n">RETR_LIST</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">CHAIN_APPROX_SIMPLE</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cont_flash</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">drawContours</span><span class="p">(</span><span class="n">flash</span><span class="p">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">contours</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cont_flash</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1e49a5c0&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_208_1.png" alt="png" /></p>
+
+<p><strong>NOTE:</strong> The official documentation as well as the popular blogs do not mention this regarding the contours. You need to find the specific contours for the shape in the image. So our <em>flash</em> contour would have a separate set of values here, likewise the circle inside which the <em>flash</em> sign is.</p>
+
+<p>This is true everywhere, there will be situations where there are more than 100 contour values. God bless us then!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">len</span><span class="p">(</span><span class="n">contours</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>10
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cnt</span> <span class="o">=</span> <span class="n">contours</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+<span class="n">moments</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">moments</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">moments</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'nu11': -0.1907517670263885, 'nu30': -0.016394871693779282, 'nu03': 0.01208933681388529, 'mu30': -172121780.97688293, 'm01': 2010266.8333333333, 'nu21': 0.020979023957747672, 'mu02': 34511693.70050317, 'nu20': 0.1388066996783884, 'mu20': 14431539.936564565, 'mu21': 220248565.17384815, 'm10': 2147855.6666666665, 'nu12': -0.02132463374655408, 'm21': 83909645927.7, 'mu12': -223876954.18984604, 'mu11': -19832196.50196892, 'm12': 82711294309.23334, 'm00': 10196.5, 'm02': 430841095.0833333, 'm30': 104252150772.20001, 'm11': 403623205.7916666, 'mu03': 126920065.13383484, 'nu02': 0.33194339092953673, 'm20': 466869529.9166666, 'm03': 98676519466.85}
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#To find centroid:
+</span><span class="n">cx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">moments</span><span class="p">[</span><span class="s">'m10'</span><span class="p">]</span><span class="o">/</span><span class="n">moments</span><span class="p">[</span><span class="s">'m00'</span><span class="p">])</span>
+<span class="n">cy</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">moments</span><span class="p">[</span><span class="s">'m01'</span><span class="p">]</span><span class="o">/</span><span class="n">moments</span><span class="p">[</span><span class="s">'m00'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">"The centroid is ({},{})"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">cx</span><span class="p">,</span><span class="n">cy</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The centroid is (210,197)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">"The contour area is {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">moments</span><span class="p">[</span><span class="s">'m00'</span><span class="p">]))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The contour area is 10196.5
+</code></pre></div></div>
+
+<p>We can find the contour area using <code class="language-plaintext highlighter-rouge">cv2.contourArea()</code></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">"The contour area is {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">cv2</span><span class="p">.</span><span class="n">contourArea</span><span class="p">(</span><span class="n">cnt</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The contour area is 10196.5
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Finding the contour perimeter
+</span><span class="n">perimeter</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">arcLength</span><span class="p">(</span><span class="n">cnt</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">perimeter</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>947.6336801052094
+</code></pre></div></div>
+
+<ul>
+  <li>Contour Approximation</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">approx</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">approxPolyDP</span><span class="p">(</span><span class="n">cnt</span><span class="p">,</span> <span class="n">perimeter</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">approx</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[[[301  52]]]
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>Bounding Rectangles</p>
+
+    <p>Selecting the bounding box only for the flash!</p>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">boundingRect</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
+<span class="n">rect</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">flash</span><span class="p">.</span><span class="n">copy</span><span class="p">(),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">w</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="n">h</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1e41c6d8&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_221_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rect</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">minAreaRect</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
+<span class="n">box</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">boxPoints</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+<span class="n">box</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">int0</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
+<span class="n">rect_draw</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">drawContours</span><span class="p">(</span><span class="n">flash</span><span class="p">.</span><span class="n">copy</span><span class="p">(),</span> <span class="p">[</span><span class="n">box</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="mi">5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">rect_draw</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1e389cf8&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_223_1.png" alt="png" /></p>
+
+<ul>
+  <li>
+    <p>Minimum Enclosing Circle</p>
+
+    <p>Cover the ‘flash’ sign using a circle.</p>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">radius</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">minEnclosingCircle</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
+<span class="n">center</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="n">radius</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">radius</span><span class="p">)</span>
+<span class="n">circle_draw</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">circle</span><span class="p">(</span><span class="n">flash</span><span class="p">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">center</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">circle_draw</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1e308828&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_225_1.png" alt="png" /></p>
+
+<ul>
+  <li>
+    <p>Fitting an Ellipse</p>
+
+    <p>To fit an ellipse to the <em>flash</em> sign.</p>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ellipse</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">fitEllipse</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
+<span class="n">draw_ellipse</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">ellipse</span><span class="p">(</span><span class="n">flash</span><span class="p">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">ellipse</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">draw_ellipse</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1e677048&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_227_1.png" alt="png" /></p>
+
+<h3 id="histograms">Histograms</h3>
+
+<p>A histogram represents the distribution of colors in an image. It can be visualized as a graph (or plot) that gives a high-level intuition of the intensity (pixel value) distribution. We are going to assume a RGB color space in this example, so these pixel values will be in the range of 0 to 255.</p>
+
+<p>By looking at the histogram of an image, you get intuition about contrast, brightness, intensity distribution etc of that image.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">curl</span> <span class="s">"https://media1.britannica.com/eb-media/54/155954-004-4BF4BBF7.jpg"</span> <span class="o">&gt;</span> <span class="n">everest</span><span class="p">.</span><span class="n">jpg</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 29947  100 29947    0     0  59170      0 --:--:-- --:--:-- --:--:--  117k
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">everest</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">imread</span><span class="p">(</span><span class="s">'everest.jpg'</span><span class="p">)</span>
+<span class="n">everest_gray</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">everest</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">everest_gray</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1eb7f630&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_230_1.png" alt="png" /></p>
+
+<ul>
+  <li>Plot histograms using just matplotlib</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">everest_gray</span><span class="p">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="mi">265</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">256</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_232_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="s">'b'</span><span class="p">,</span> <span class="s">'g'</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">color</span><span class="p">):</span>
+    <span class="n">histr</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">calcHist</span><span class="p">([</span><span class="n">everest</span><span class="p">],</span> <span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">None</span><span class="p">,</span> <span class="p">[</span><span class="mi">256</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">256</span><span class="p">])</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">histr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">256</span><span class="p">])</span>
+    
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_233_0.png" alt="png" /></p>
+
+<ul>
+  <li>Multi-Dimensional Histograms</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">hsv</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">everest</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2HSV</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">hsv</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1df17e48&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_235_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># calcHist(images, channels, mask, histSize, ranges[, hist[, accumulate]])
+</span><span class="n">hist</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">calcHist</span><span class="p">([</span><span class="n">hsv</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="bp">None</span><span class="p">,</span> <span class="p">[</span><span class="mi">180</span><span class="p">,</span> <span class="mi">256</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">256</span><span class="p">])</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">hist</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">'nearest'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x7f3c1df033c8&gt;
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/pratos/pratos.github.io/master/images/opencv/output_237_1.png" alt="png" /></p>
+
+<p>Applications of histograms still feels as something very obscure at this point of time. Let’s continue the discussion after I understand things.</p>
+
+<p>This should get you started off with using OpenCV at a very primary level. Even I’ve not mastered it, still to cover a lot of ground. Next part would be using all the learnings to create an application or maybe a Kaggle competition dataset for practice.</p>
+
+  </div><a class="u-url" href="/2017/06/13/opencv-code-snippets-intro.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Collection of random stuff that I learn through building and fixing software</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/pratos" target="_blank" title="pratos"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/pratos_" target="_blank" title="pratos_"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

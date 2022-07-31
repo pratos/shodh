@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>DataViz Dashboards using Python, the Resources | prthamesh’s blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="DataViz Dashboards using Python, the Resources" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="All the Data Science enthusiasts would agree on the fact that: Data Visualization using Python is hard!. We’ll look at some means via which we can do data visualization &amp; dashboards." />
+<meta property="og:description" content="All the Data Science enthusiasts would agree on the fact that: Data Visualization using Python is hard!. We’ll look at some means via which we can do data visualization &amp; dashboards." />
+<link rel="canonical" href="https://blog.shodh.co/2017/08/11/data-dashboards-python.html" />
+<meta property="og:url" content="https://blog.shodh.co/2017/08/11/data-dashboards-python.html" />
+<meta property="og:site_name" content="prthamesh’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-08-11T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="DataViz Dashboards using Python, the Resources" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2017-08-11T00:00:00-05:00","datePublished":"2017-08-11T00:00:00-05:00","description":"All the Data Science enthusiasts would agree on the fact that: Data Visualization using Python is hard!. We’ll look at some means via which we can do data visualization &amp; dashboards.","headline":"DataViz Dashboards using Python, the Resources","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.shodh.co/2017/08/11/data-dashboards-python.html"},"url":"https://blog.shodh.co/2017/08/11/data-dashboards-python.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.shodh.co/feed.xml" title="prthamesh's blog" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">prthamesh&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">DataViz Dashboards using Python, the Resources</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2017-08-11T00:00:00-05:00" itemprop="datePublished">
+        Aug 11, 2017
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>All the Data Science enthusiasts would agree on the fact that: <strong>Data Visualization using Python is hard!</strong>. We’ll look at some means via which we can do data visualization &amp; dashboards.</p>
+
+<h3 id="rshiny-oh-my-precious">RShiny, oh my precious!</h3>
+<hr />
+
+<div align="center"><img src="http://www.theswarmlab.com/img/portfolio/shiny.png" height="400px;" width="470px;" /></div>
+
+<p><strong>R</strong> rules in the Data Visualization space, to make those plots more user friendly, we have <strong>RShiny</strong>. Hands-down the best tool to do exploratory data analysis.</p>
+
+<p>But there’s still a catch here, <strong>RShiny</strong> is still unintuitive for someone not familiar with <strong>HTML,CSS especially Bootstrap</strong>. With the <strong>reactive programming</strong> concept, mastering RShiny is a difficult task. Plus, the packaging and using it in for a production environment (and expectations of clients for <strong>RShiny</strong> to be a good looking interface) makes it difficult. <strong>RStudio’s offering, RShiny Server</strong> is a good choice, but to purchase the enteprise version a small startup may have to rent their existing rented workspace (<a href="https://www.rstudio.com/pricing/">RStudio Pricing</a>). There’s a free version too, but again setup headaches.</p>
+
+<h3 id="popular-visualization-tools-mainstream">Popular Visualization Tools, mainstream…</h3>
+<hr />
+
+<div align="center"><img src="https://tableau.lcsexams.com/images/TableauLogo.jpg" /></div>
+
+<div align="center"><img src="http://www.calumo.com/wp-content/uploads/2017/03/Microsoft-Power-BI.png" /></div>
+
+<div align="center"><img src="https://lh5.googleusercontent.com/-DcTUn7CcILQ/AAAAAAAAAAI/AAAAAAAAAA8/FbY-q6axZlQ/photo.jpg" height="400px;" width="470px;" /></div>
+
+<p>Tableau, PowerBI and Qlikview are choices, but the licence costs would drain all the money. Not like a Data Science guy would purchase hefty licences to make dashboards…not everyone makes dashboards everyday! So there’s an option of going the Javascript way! But…</p>
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">- ok, who&#39;s ready to learn javascript?<br />[30 hands go up]<br />- who&#39;s going to give it more than 1 week?<br />[30 hands go down]<br /><br />Next day: &quot;JS SUCKS&quot;</p>&mdash; I Am Devloper (@iamdevloper) <a href="https://twitter.com/iamdevloper/status/874989025748189184">June 14, 2017</a></blockquote>
+
+<h3 id="javascript-ftw">JavaScript, FTW!</h3>
+<hr />
+
+<div align="center"><img src="https://d21ii91i3y6o6h.cloudfront.net/gallery_images/from_proof/9731/medium/1450213382/d3.png" /></div>
+
+<p>Javascript for DataViz is a crowded space with lots of libraries (as expected), with varying amounts of abstractions. The most popular one is <a href="https://d3js.org/">D3js</a>. You can check out the rest at <a href="https://www.sitepoint.com/15-best-javascript-charting-libraries/">this link</a>.</p>
+
+<h3 id="python-whoa-stop-right-there">Python? whoa stop right there!</h3>
+<hr />
+
+<div align="center"><img src="https://s-media-cache-ak0.pinimg.com/600x315/c3/aa/7d/c3aa7dc37e6beb7319e01d6b9d1b1f22.jpg" /></div>
+
+<p>For Python, there are libraries that help you in Data Visualization. Most popular ones are: <strong>matplotlib</strong> and its abstraction: <strong>seaborn</strong>.</p>
+
+<p><strong>Matplotlib</strong> can be considered as a low abstraction level plotting tool that helps anyone to build charts just like how you build <strong>Lego structures</strong>. It is painstaking…your eyes will bleed by the time your finish the graph…but it is worth the pain…if you aren’t on a deadline.</p>
+
+<div align="center"><img src="https://matplotlib.org/1.3.1/_static/logo2.png" /></div>
+
+<p>Quick, dirty plotting that’s a feature of <strong>ggplot2</strong> or <strong>R</strong>, for that matter, isn’t exactly for Python. It follows the same <strong>Grammar of Graphics</strong> philosophy, but there’s a steep learning curve.</p>
+
+<p><strong>Seaborn</strong> on the other hand is pretty much a decent library to start off. The official page describes it as:</p>
+
+<blockquote>
+  <p>Seaborn is a library for making attractive and informative statistical graphics in Python. It is built on top of matplotlib and tightly integrated with the PyData stack, including support for numpy and pandas data structures and statistical routines from scipy and statsmodels.</p>
+</blockquote>
+
+<p>There’s another way through which the pain of quick, dirty data visualization is possible. It is possible via <strong>pandas’</strong> inbuilt plotting functions for <code class="language-plaintext highlighter-rouge">dataframes</code>.</p>
+
+<p><a href="https://plot.ly/">Plotly</a> has excellent APIs to make your static Python plots interactive. That’s another option, also good guys at Plotly have released a framework to create dashboards: <a href="https://plot.ly/products/dash/">Dash</a>, which has an HTML-Python hybrid interface.</p>
+
+<p>Now all this was all good, what if we want to integrate everything in a dashboard using just python. Making a dashboard in Python! That too pure Python code? You must be kidding, right?</p>
+
+<p>That’s what I thought when I started out, but who knew there’s always hope!</p>
+
+<p>If you want to get an idea about Python Visualization landscape, watch <a href="https://www.youtube.com/watch?v=FytuB8nFHPQ">Jake VanderPlas’: The Python Visualization Landscape at PyCon 2017</a></p>
+
+<h3 id="bokeh">Bokeh</h3>
+<hr />
+
+<div align="center"><img src="http://people.math.sc.edu/etpalmer/Images/bokeh.png" /></div>
+
+<blockquote>
+  <p>Bokeh is a Python interactive visualization library that targets modern web browsers for presentation. Its goal is to provide elegant, concise construction of novel graphics in the style of D3.js, and to extend this capability with high-performance interactivity over very large or streaming datasets. Bokeh can help anyone who would like to quickly and easily create interactive plots, dashboards, and data applications.</p>
+</blockquote>
+
+<p>Sounds fun, but first time I tried it…not that great!</p>
+
+<p>Recently, revisited back again to work on interactive <strong>Jupyter notebooks</strong>. I went from being excited about <strong>Dash</strong>, to crying and bookmarking <strong>D3js</strong> tutorials. Things weren’t the same for me, I was sure <strong>Bokeh</strong> wasn’t okay.</p>
+
+<p>Then deadlines came up and I had to act fast. Fired up the browser, YouTubed the hell out and came across Bokeh videos (via the NYC Taxi Data visualizations by Continuum). This post isn’t about coding out a Bokeh plot or Dashboard, but providing resources (and bitching about other languages/tools).</p>
+
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=GkysOB8_xsE&amp;t=1040s">Watch for Inspiration</a></li>
+  <li><a href="https://www.youtube.com/watch?v=Cwnb_o0UORM&amp;t=3110s">Understanding the Bokeh basics - Strata conference 2016</a></li>
+  <li><a href="https://www.youtube.com/watch?v=9FlUFLmaWvY&amp;t=170s">Sarah Bird’s Getting started with Bokeh</a></li>
+  <li><a href="https://www.youtube.com/watch?v=O5OvOLK-xqQ">Sarah Bird’s Bokeh for Web Developers</a></li>
+  <li><a href="https://www.youtube.com/watch?v=Kojrxqgecx4">Casey Clements’ Bokeh basics</a></li>
+  <li><a href="https://www.youtube.com/watch?v=h0y90MyGo-c">Bryan Van de Ven - Bokeh for Data Applications and Visualization</a></li>
+</ul>
+
+<p>Some github resources:</p>
+
+<ul>
+  <li><a href="https://github.com/bokeh/bokeh-notebooks">Bokeh notebooks</a></li>
+  <li><a href="http://chdoig.github.io/scipy2015-blaze-bokeh/#/">Bokeh slides</a></li>
+  <li><a href="http://nbviewer.jupyter.org/github/bokeh/bokeh-notebooks/blob/master/index.ipynb">Bokeh nbviewer</a></li>
+</ul>
+
+<p>Even if blogs/videos are a great resource to start off, project documentation is the best resource if you get stuck. <strong>Bokeh</strong> documentation is fairly good, sometimes the whole searches are a bit of a pain. Said that, it is still great!</p>
+
+<ul>
+  <li><a href="http://bokeh.pydata.org/en/latest/docs/user_guide.html">Bokeh User Guide</a></li>
+  <li><a href="http://bokeh.pydata.org/en/latest/docs/gallery.html">Bokeh Gallery - Inspired from RShiny Gallery</a></li>
+</ul>
+
+<p>One great advantage of Bokeh is it plays nicely along with other libraries: <a href="http://bokeh.pydata.org/en/latest/docs/user_guide/compat.html">Leveraging Libraries</a></p>
+
+<p>You can convert your exisiting <code class="language-plaintext highlighter-rouge">matplotlib</code> code to <code class="language-plaintext highlighter-rouge">bokeh</code>.</p>
+
+<p>For large datasets, there’s always a problem of well…large number of data points that can’t be fitted on a 2D space. We have a lot of ways through which we can do it. <strong>Continuum</strong> has open sourced libraries that make this task easy:</p>
+
+<ul>
+  <li><a href="https://datashader.readthedocs.io/en/latest/">Datashader</a></li>
+  <li><a href="https://github.com/dask/dask">Dask</a></li>
+  <li><a href="http://holoviews.org/">Holoviews</a></li>
+</ul>
+
+<p>A few advanced notebooks that could help:</p>
+
+<ul>
+  <li><a href="https://anaconda.org/jbednar/plotting_pitfalls/notebook">Common pitfalls</a></li>
+  <li><a href="https://continuum-analytics.wistia.com/medias/8zu9idwoym?mkt_tok=eyJpIjoiTmpKbU9EZ3hOV0l4TnprNCIsInQiOiJiZlp1Yks2ekpXeG1kbTdIVEVuZ0g1WXVNR2h1RzJiSHhocXB0YVdaN0dWejZESGhQZTNjOGhOakQ5ZW9RR0tNUmo3amJvT0JIRmthblpSS1FWTjlUQT09In0%3D">Datashader: Webinar</a></li>
+  <li><a href="https://anaconda.org/jbednar/nyc_taxi/notebook">How to meaningfully use datashader</a></li>
+</ul>
+
+<p>By all means, these tools are something that I know of and does not include a lot of tools. Do comment in to add a few!</p>
+
+  </div><a class="u-url" href="/2017/08/11/data-dashboards-python.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Collection of random stuff that I learn through building and fixing software</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/pratos" target="_blank" title="pratos"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/pratos_" target="_blank" title="pratos_"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

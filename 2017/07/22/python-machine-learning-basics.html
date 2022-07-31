@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Machine Learning Resources for Python [Basic] | prthamesh’s blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Machine Learning Resources for Python [Basic]" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="There are lots of github repositories and blogs that have more exhaustive resources than what I’ve put down here that covers a whole lot. But these would be good to start off, I’ll put together an intermediate list in the next post." />
+<meta property="og:description" content="There are lots of github repositories and blogs that have more exhaustive resources than what I’ve put down here that covers a whole lot. But these would be good to start off, I’ll put together an intermediate list in the next post." />
+<link rel="canonical" href="https://blog.shodh.co/2017/07/22/python-machine-learning-basics.html" />
+<meta property="og:url" content="https://blog.shodh.co/2017/07/22/python-machine-learning-basics.html" />
+<meta property="og:site_name" content="prthamesh’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-07-22T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Machine Learning Resources for Python [Basic]" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2017-07-22T00:00:00-05:00","datePublished":"2017-07-22T00:00:00-05:00","description":"There are lots of github repositories and blogs that have more exhaustive resources than what I’ve put down here that covers a whole lot. But these would be good to start off, I’ll put together an intermediate list in the next post.","headline":"Machine Learning Resources for Python [Basic]","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.shodh.co/2017/07/22/python-machine-learning-basics.html"},"url":"https://blog.shodh.co/2017/07/22/python-machine-learning-basics.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.shodh.co/feed.xml" title="prthamesh's blog" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">prthamesh&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Machine Learning Resources for Python [Basic]</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2017-07-22T00:00:00-05:00" itemprop="datePublished">
+        Jul 22, 2017
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>There are lots of github repositories and blogs that have more exhaustive resources than what I’ve put down here that covers a whole lot. But these would be good to start off, I’ll put together an intermediate list in the next post.</p>
+
+<div align="center"><img src="http://www.vizteams.com/wp-content/uploads/2013/08/python-logo-master.png" width="800px;" height="500px;" /></div>
+
+<h3 id="understanding-anaconda-distribution--using-it-for-machine-learningml">Understanding Anaconda distribution &amp; using it for Machine Learning(ML)</h3>
+
+<p>As someone starting off with ML &amp; using Python to do it, you will have to understand that ML or Data Science is more of sharing, collaboration and involves you having to share all your findings/research/outcomes to the stake-holders or engineering folks that would use it. Anaconda distribution is one such means through which you will keep yourself sane as well as keep others sane.</p>
+
+<p>Right from the start, try using Jupyter notebooks rather than an IDE, this will help you to explore more and document your findings/issues/quirks without leaving the notebook.</p>
+
+<ul>
+  <li><a href="https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/install.html">Installation</a>
+    <ul>
+      <li>NOTE: If you have Windows, just download the conda installer for Windows and install .exe file</li>
+      <li>NOTE: If you have Ubuntu/Mac, use <code class="language-plaintext highlighter-rouge">wget &lt;url link&gt;</code></li>
+    </ul>
+  </li>
+  <li><a href="https://conda.io/docs/install/quick.html#linux-miniconda-install">Miniconda installation -alternate space saver for Anaconda, I’ll suggest this</a></li>
+  <li><a href="https://conda.io/miniconda.html">Miniconda .exe files</a></li>
+  <li><a href="https://www.datacamp.com/community/tutorials/tutorial-jupyter-notebook">Understanding to use Jupyter notebooks</a></li>
+  <li><a href="https://jakevdp.github.io/blog/2016/08/25/conda-myths-and-misconceptions/">Conda myths and misconceptions - Must read</a></li>
+</ul>
+
+<p><strong>Basics of Python:</strong></p>
+
+<ul>
+  <li><a href="http://nbviewer.jupyter.org/github/jmportilla/">JM Portilla course notebooks</a></li>
+  <li><a href="https://pythonprogramming.net/">Python Programming - MUST READ</a></li>
+  <li><a href="https://www.youtube.com/user/sentdex/playlists">Python Programming - sentdex videos MUST WATCH</a></li>
+</ul>
+
+<p><strong>Extra Resources:</strong></p>
+
+<ul>
+  <li><a href="https://guides.github.com/features/mastering-markdown/">Learning how to write Markdown Documents - Essential</a></li>
+  <li><a href="https://github.com/vinta/awesome-python">Awesome Python - github</a></li>
+  <li><a href="http://codehandbook.org/category/python-programming-language/">Code Handbook for Python</a></li>
+</ul>
+
+<h3 id="statistics--machine-learning-basics">Statistics &amp; Machine Learning basics</h3>
+
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=8X2xfwBP4uo&amp;list=PLRUSZBUQY2FnkBLgUPAGUK-FZbK0h0VTz">Brandon Foltz’s Stats videos - MUST WATCH</a></li>
+  <li><a href="https://www.quora.com/What-is-machine-learning-in-laymans-terms-1">What is Machine Learning</a></li>
+  <li><a href="https://www.analyticsvidhya.com/blog/learning-path-data-science-python/">Analytics Vidhya ML path using Python</a>
+    <ul>
+      <li>NOTE: Please do not attempt Kaggle competitions now, it would hinder your progress. Go through the basics first and then attempt Kaggle competitions.</li>
+    </ul>
+  </li>
+  <li><a href="https://www.youtube.com/playlist?list=PLZ9qNFMHZ-A4rycgrgOYma6zxF4BZGGPW">Coursera Andrew NG videos - Watch these after you are done with all the courses</a></li>
+</ul>
+
+<h3 id="python-for-data-science">Python for Data Science</h3>
+
+<p>You have to learn about a few libraries that are core pillars of Python:</p>
+
+<p><strong>NOTE: Click <a href="http://www.scipy-lectures.org/intro/index.html">here</a> for an umbrella source for Data Science using Python</strong></p>
+
+<ul>
+  <li><a href="http://www.numpy.org/">Numpy</a>
+    <ul>
+      <li><a href="http://www.scipy-lectures.org/intro/numpy/index.html">Numpy basics</a></li>
+      <li><a href="http://cs231n.github.io/python-numpy-tutorial/">Numpy Tutorial - cs231n</a></li>
+    </ul>
+  </li>
+  <li><a href="https://pandas.pydata.org/">Pandas</a>
+    <ul>
+      <li><a href="https://pandas.pydata.org/pandas-docs/stable/10min.html">Pandas basics</a></li>
+      <li><a href="http://www.gregreda.com/2013/10/26/intro-to-pandas-data-structures/">Pandas by Greg Reda</a></li>
+      <li><a href="https://tryolabs.com/blog/2017/03/16/pandas-seaborn-a-guide-to-handle-visualize-data-elegantly/?utm_content=buffer6e0e2&amp;utm_medium=social&amp;utm_source=linkedin.com&amp;utm_campaign=buffer">Pandas Troylabs</a></li>
+      <li><a href="http://www.gregreda.com/2013/10/26/intro-to-pandas-data-structures/">Pandas by Data Camp</a></li>
+    </ul>
+  </li>
+  <li><a href="https://matplotlib.org/index.html">Matplotlib</a>
+    <ul>
+      <li><a href="https://matplotlib.org/users/pyplot_tutorial.html">Matplotlib - pyplot</a></li>
+      <li><a href="https://www.labri.fr/perso/nrougier/teaching/matplotlib/">Matplotlib by Nicolas Rougier</a></li>
+      <li><a href="https://www.datacamp.com/community/tutorials/matplotlib-tutorial-python#gs.MKl=SYs">Matplotlib by Datacamp</a></li>
+      <li><a href="http://jakevdp.github.io/mpl_tutorial/tutorial_pages/tut1.html">Matplotlib by Jake Vander Plass - This guy is good!</a></li>
+    </ul>
+  </li>
+  <li><a href="http://seaborn.pydata.org/introduction.html">Seaborn</a>
+    <ul>
+      <li><a href="https://seaborn.pydata.org/tutorial.html">Seaborn Entire tutorial - official blog</a></li>
+      <li><a href="https://elitedatascience.com/python-seaborn-tutorial">Seaborn tutorial by Elite Data Science</a></li>
+    </ul>
+  </li>
+  <li><a href="http://scikit-learn.org/stable/tutorial/basic/tutorial.html">Scikit-Learn</a>
+    <ul>
+      <li>NOTE: You’ll be able to appreciate Scikit learn after you know the theory of Machine Learning (ML)</li>
+      <li><a href="https://www.datacamp.com/community/tutorials/machine-learning-python">Scikit learn basics by Data Camp</a></li>
+      <li><a href="http://machinelearningmastery.com/a-gentle-introduction-to-scikit-learn-a-python-machine-learning-library/">ML Mastery by Jason Bronwlee - Basics SKLearn</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="a-few-blogs-that-regularly-you-will-need-to-refer-regularly">A few blogs that regularly you will need to refer regularly</h3>
+
+<ul>
+  <li><a href="">Analytics Vidhya - They have decent ML/Data Science related articles for theory and handson</a></li>
+  <li><a href="https://www.datacamp.com/community/blog">DataCamp</a></li>
+  <li><a href="https://www.dataquest.io/blog/">Dataquest</a></li>
+  <li><a href="http://blog.yhat.com/">yHat blog</a></li>
+  <li><a href="https://chrisalbon.com/">Chris Albon - Whenever you get stuck,don’t know a syntax</a></li>
+</ul>
+
+<h3 id="generic-reading">Generic Reading</h3>
+
+<ul>
+  <li><a href="http://bigdata-doctor.com/role-data-scientist-data-driven-organization/">Role of Data Science team</a></li>
+  <li><a href="https://www.quora.com/Data-Analysis/What-are-the-steps-of-a-data-analysis-process">What are the steps for Data Analysis</a></li>
+</ul>
+
+<h3 id="regular-reading">Regular Reading</h3>
+
+<ul>
+  <li>You’ll need to make sure you read at least one article related to ML/DL/Data Science EVERYDAY. You understand it or not is a different thing, but it would help you to think about why/what/how. If you understand, it would add more to your understanding, if not then you can read more about it. Few reading feeds you can follow are:
+    <ul>
+      <li><a href="https://becominghuman.ai/">Medium publication - Becoming Human (ML/DL/Data Science)</a></li>
+      <li><a href="https://medium.com/towards-data-science">Medium publication - Towards Data Science ((ML/DL/Data Science – recommended)</a></li>
+      <li><a href="https://medium.freecodecamp.org/">Medium publication - freeCodeCamp (Software Engg, ML, DL – recommended)</a></li>
+      <li><a href="https://hackernoon.com/">Medium publication - HackerNoon (Software Engg, ML, DL – recommended)</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="books-that-would-help">Books that would help</h3>
+
+<ul>
+  <li><a href="http://www.amazon.in/Introduction-Machine-Learning-Andreas-Mueller/dp/1449369413/ref=sr_1_1?ie=UTF8&amp;qid=1500704132&amp;sr=8-1&amp;keywords=introduction+to+scikit+learn">Introduction to ML using Python by Sarah Guido &amp; Andreas Mueller</a></li>
+</ul>
+
+<p>Do let me know if this a good list for a beginner or would have to add/remove anything. Enjoy &amp; learn!</p>
+
+  </div><a class="u-url" href="/2017/07/22/python-machine-learning-basics.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Collection of random stuff that I learn through building and fixing software</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/pratos" target="_blank" title="pratos"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/pratos_" target="_blank" title="pratos_"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

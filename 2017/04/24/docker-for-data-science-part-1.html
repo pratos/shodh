@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Docker for Data Science - Part 1 | prthamesh’s blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Docker for Data Science - Part 1" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Collection of random stuff that I learn through building and fixing software" />
+<meta property="og:description" content="Collection of random stuff that I learn through building and fixing software" />
+<link rel="canonical" href="https://blog.shodh.co/2017/04/24/docker-for-data-science-part-1.html" />
+<meta property="og:url" content="https://blog.shodh.co/2017/04/24/docker-for-data-science-part-1.html" />
+<meta property="og:site_name" content="prthamesh’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-04-24T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Docker for Data Science - Part 1" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2017-04-24T00:00:00-05:00","datePublished":"2017-04-24T00:00:00-05:00","description":"Collection of random stuff that I learn through building and fixing software","headline":"Docker for Data Science - Part 1","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.shodh.co/2017/04/24/docker-for-data-science-part-1.html"},"url":"https://blog.shodh.co/2017/04/24/docker-for-data-science-part-1.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.shodh.co/feed.xml" title="prthamesh's blog" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">prthamesh&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Docker for Data Science - Part 1</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2017-04-24T00:00:00-05:00" itemprop="datePublished">
+        Apr 24, 2017
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      11 min read
+    
+</span></p>
+
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div align="center"><img src="https://www.docker.com/sites/default/files/docker_toolbox_0.png" width="500px;" height="350px;" /></div>
+
+<p align="center"><b>Source: Docker Homepage</b></p>
+
+<h3 id="the-situation">The situation</h3>
+<hr />
+<p>As Data Scientist/Data Analysts/Data Science enthusiasts, we are by far a messier version of our Software Engineering counter parts. We like quick, dirty solutions. Code base that sometimes puts a double burst cheese pizza to shame (yum though!).</p>
+
+<p>We like to experiment, change things on the fly and get the results out as soon as possible…coz deadlines <em>shakes head</em>. All this adds to the mess that already is - dependencies, obscure packages and platform dependent issues. To replicate the same experiment takes more than just writing <code class="language-plaintext highlighter-rouge">random.seed(4)</code>, and there comes the classic problems:</p>
+
+<blockquote>
+  <p><em>“Okay! But that ran on my system”</em></p>
+</blockquote>
+
+<blockquote>
+  <p><em>“I have sent every code script, data and other things. Strange I haven’t missed any.”</em></p>
+</blockquote>
+
+<blockquote>
+  <p><em>“Too lazy to install everything from scratch, hate Linux/Windows/Mac”</em></p>
+</blockquote>
+
+<blockquote>
+  <p><em>“Can’t install the package that you used, can you help me out?”</em></p>
+</blockquote>
+
+<p>What if I told you, as Data Scientist one can easily get all this sorted? Docker is the answer!</p>
+
+<p>There’ll be a section of readers who would be thinking, <em>“Docker is nuts! Only DevOps folks know it in and out!”</em>. True in some respects, but if there’s a way to standardize our Data Science Workflow and be productive then why not try it out. Knowing just small bit of Docker would be enough as a starting point.</p>
+
+<h3 id="what-is-docker">What is Docker?</h3>
+<hr />
+<p>According to Docker’s official website:</p>
+
+<blockquote>
+  <p>Docker is the world’s leading software container platform. Developers use Docker to eliminate “works on my machine” problems when collaborating on code with co-workers. Operators use Docker to run and manage apps side-by-side in isolated containers to get better compute density. Enterprises use Docker to build agile software delivery pipelines to ship new features faster, more securely and with confidence for both Linux and Windows Server apps.</p>
+</blockquote>
+
+<p>Docker provides us an isolated container, where we can add all the things that we need to for our experiment to run. We could also create a full fledged web application that can be used as a production grade. So right from experiments to production applications, Docker provides a good means to get our Data Science applications out in the real world.</p>
+
+<p>To learn Docker, we need to understand the terminologies and tools on offer and what we can do with it.</p>
+
+<p><strong>Docker Terminology:</strong></p>
+
+<ol>
+  <li><strong>Docker Containers:</strong> Small user-level virtualization (isolation) that helps you install, build and run your code/workflow. All the code would be continuosly running in these containers.</li>
+  <li><strong>Docker Images:</strong> An image is an inert, immutable, file that’s essentially a snapshot of a container. These are your actual committed containers (ones that have the process running, data stored, ports exposed to be used). Docker images are essentially the stored instances that you can (actually move around).</li>
+  <li><strong>Dockerfile:</strong> It is a YAML (almost) based file from which <em>Docker</em> creates an image. It can be thought of as an automated script that has all the steps you want to execute.</li>
+</ol>
+
+<p>You could be a Data Science enthusiasts who can share his code without documenting any single thing, <code class="language-plaintext highlighter-rouge">Dockerfile</code> (more on this later) is self-documenting. All you have to do is create a Docker image, upload it on DockerHub and share it with the world!</p>
+
+<p>A good resource to know more about <strong>Docker and Containerization technology</strong> as a whole read <a href="https://medium.freecodecamp.com/a-beginner-friendly-introduction-to-containers-vms-and-docker-79a9e3e119b">this blog</a></p>
+
+<p>In this blog post, we’ll tackle very narrow problems of <strong>Starting off with pre-built Docker images</strong> and <strong>Environment packaging</strong>.</p>
+
+<h3 id="docker-installation">Docker installation</h3>
+<hr />
+<p>All the examples here are generic, except for the installation of <em>Docker</em>. The official <em>Docker installation</em> documents for Windows and Mac are pretty straight forward. You can start off <em>Docker installation</em> using this <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04">DigitalOcean blog post</a>.</p>
+
+<p>(<em>Tip: For any Linux distro related installations, DigitalOcean articles are the real deal! Always search for them.</em>)</p>
+
+<h3 id="docker-for-instant-gratification">Docker for instant gratification</h3>
+<hr />
+<div align="center"><img src="https://i.imgflip.com/1nthdr.jpg" title="made at imgflip.com" /></div>
+
+<p>Getting the right tool to do things is hard and getting it installed on your system is a tough job sometimes.</p>
+
+<p>Let’s take an example Python’s <code class="language-plaintext highlighter-rouge">cryptography</code> installation on your Windows system, unless you have the right Microsoft authorized C++ compiler the package won’t <code class="language-plaintext highlighter-rouge">pip install</code>. After ardorous, time sapping attempts you might get things running. In Ubuntu, installation is just a breeze.</p>
+
+<p><a href="https://medium.com/becoming-human/tensorflow-serving-by-creating-and-using-docker-images-336ca4de8671">Read my experiences</a> in compiling TensorFlow Serving, that would give you a fair idea that setting up platform to do things, especially obscure things take time.</p>
+
+<p>Docker solves this, <a href="https://hub.docker.com/">DockerHub</a> has a host of images uploaded by individuals and tech teams alike. Right from <a href="https://hub.docker.com/_/hello-world/">Hello World images</a> to <a href="https://hub.docker.com/r/sergiobuj/cl-jupyter/">LISP images</a>.</p>
+
+<p>What do you need to do? Just <code class="language-plaintext highlighter-rouge">docker pull &lt;username&gt;/&lt;image-name&gt;</code>. It would download the image for you. Try out the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>user@user:~$ docker pull hello-world
+Using default tag: latest
+latest: Pulling from library/hello-world
+78445dd45222: Pull complete 
+Digest: sha256:c5515758d4c5e1e838e9cd307f6c6a0d620b5e07e6f927b07d05f6d12a1ac8d7
+Status: Downloaded newer image for hello-world:latest
+</code></pre></div></div>
+
+<p>To run the <em>docker image</em> run command as below:</p>
+
+<p><code class="language-plaintext highlighter-rouge">docker run hello-world</code></p>
+
+<p>Should give you output:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://cloud.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/engine/userguide/
+</code></pre></div></div>
+
+<p>Generally the <em>docker files</em> that you would use for Data Science purposes would be much complex with a variety of components to take care of: <em>ports, volumes and many other things.</em></p>
+
+<p>We’ll look at how to run a full fledged <em>Anaconda</em> jupyter notebook that has all the components pre-installed. (An easier version of <em>conda installation</em>).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>user@user:~$ docker pull continuumio/anaconda3
+Using default tag: latest
+latest: Pulling from continuumio/anaconda3
+8ad8b3f87b37: Pull complete 
+26e5bbd29116: Pull complete 
+26a23cde1ff7: Pull complete 
+0947a413f98b: Pull complete 
+Digest: sha256:d04148529d340097c08677061e7d08f42e13a51dbdbf7488d92af0a65fd82973
+Status: Downloaded newer image for continuumio/anaconda3:latest
+</code></pre></div></div>
+
+<p>To log in the docker container, we can run the command below:
+    - <code class="language-plaintext highlighter-rouge">docker run -i -t continuumio/anaconda3 /bin/bash</code></p>
+
+<p>To run Jupyter notebook in a <code class="language-plaintext highlighter-rouge">no-browser</code> mode, run the command below:
+    - <code class="language-plaintext highlighter-rouge">docker run -i -t -p 8888:8888 continuumio/anaconda3 /bin/bash -c "/opt/conda/bin/conda install jupyter -y --quiet &amp;&amp; mkdir /opt/notebooks &amp;&amp; /opt/conda/bin/jupyter notebook --notebook-dir=/opt/notebooks --ip='*' --port=8888 --no-browser"</code></p>
+
+<ul>
+  <li>Here, let’s discuss what the 2nd command is doing:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">-i</code> is running the image interactively.</li>
+      <li><code class="language-plaintext highlighter-rouge">-t</code> is allocate a pseudo-TTY.</li>
+      <li><code class="language-plaintext highlighter-rouge">-p</code> is connect/publish the container ports to host. Here localhost:8888 to 8888 of container.</li>
+      <li>Downloading <code class="language-plaintext highlighter-rouge">jupyter</code> and starting the notebooks in the <code class="language-plaintext highlighter-rouge">--no-browser</code> mode.</li>
+    </ul>
+  </li>
+  <li>A few more that you should know are:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">-d</code> is to run container in the background, without accidently closing it.</li>
+      <li><code class="language-plaintext highlighter-rouge">-v</code> is to bind a volume to the container, useful when you want your notebooks and/or data to be reflected in the container from your local system.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Go to the browser and run http://localhost:8888 to start running your experiments. Pretty nifty, if you want to start off easily using a ready-made docker container.</p>
+
+<p>But, all of this doesn’t solve our main problem: <strong>Managing Environments</strong>.</p>
+
+<h3 id="manage-environments-and-let-others-use-that-easily">Manage Environments and let others use that easily!</h3>
+<hr />
+<p>For my daily work, I create virtual environments for each project using <code class="language-plaintext highlighter-rouge">Anaconda</code> distribution. It provides a very easy means to share code along with the <code class="language-plaintext highlighter-rouge">environment.yml</code> file that can be exported and used to install the entire environment.</p>
+
+<p>There’s a good portability here, mind you, but still cross operating system (OS) installations may break. That’s where <em>docker</em> shines and with a great deal of eco-system components like <em>docker-compose</em> and <em>docker-machine</em>, it is easier than ever to get up and running with a tangible Data Science application.</p>
+
+<h3 id="case-my-colleague-is-fed-up-of-sharing-code-with-his-friend-who-isnt-exactly-someone-who-would-install-obscure-dependencies-and-actually-run-the-code-we-want-to-provide-him-ways-to-change-and-run-the-code-with-minimal-headache">Case: My colleague is fed up of sharing code with his friend, who isn’t exactly someone who would install obscure dependencies and actually run the code. We want to provide him ways to change and run the code with minimal headache.</h3>
+<hr />
+<div align="center"><img src="https://i.imgflip.com/1nth2e.jpg" title="made at imgflip.com" height="600px;" width="420px;" /></div>
+
+<p>To start off, we’ll be creating a <code class="language-plaintext highlighter-rouge">Dockerfile</code>. As explained above, <code class="language-plaintext highlighter-rouge">Dockerfile</code> would take care of setting up the image for you that includes <em>downloading the base images, setting the maintainer name-id, installing the required ubuntu/debian programs, installing language dependencies</em> and many more things.</p>
+
+<p>We’ll be creating a python3.5 based Docker image that would contain folders <code class="language-plaintext highlighter-rouge">data</code> and <code class="language-plaintext highlighter-rouge">notebooks</code> with ports 8888 exposed to connect to <code class="language-plaintext highlighter-rouge">jupyter notebooks</code>.</p>
+
+<p>(<em>Note: If any of the python modules can’t be installed via pip, it would be safe to write <code class="language-plaintext highlighter-rouge">RUN</code> commands to run them safely</em>).</p>
+
+<p>Create a folder with the tree structure as below:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.
+├── data
+│   └── readme.md
+├── Dockerfile
+├── notebook
+│   └── readme.md
+├── README.md
+└── requirements.txt
+</code></pre></div></div>
+
+<p>We have the requirements.txt file as below:
+(<em>Note: Do <code class="language-plaintext highlighter-rouge">pip freeze &gt; requirements.txt</code> to generate one for your conda environment</em> )</p>
+
+<script src="https://gist.github.com/pratos/5460f87cc357cf2505914eed3118ee10.js"></script>
+
+<p>We’ll start off with getting smaller components for our <code class="language-plaintext highlighter-rouge">Dockerfile</code>.</p>
+
+<ul>
+  <li>
+    <p>base image:</p>
+
+    <p>To make things simple, the base image that we’ll use is the <code class="language-plaintext highlighter-rouge">python:3.5.3-onbuild</code> image. All we need is a requirements.txt file that would have all the python modules to be installed. To recap, it does the following:</p>
+
+    <ul>
+      <li>Install python 3.5.3</li>
+      <li>Pull in your source and put it in a conspicuous and runnable place.</li>
+      <li>Install your requirements.txt file.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>(<strong>Note: This would create a Debian container, not an Ubuntu one</strong>)</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">FROM</span> <span class="n">python</span><span class="p">:</span><span class="mf">3.5</span><span class="p">.</span><span class="mi">3</span><span class="o">-</span><span class="n">onbuild</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Updating the repository sources</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">RUN</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Creating folders for <code class="language-plaintext highlighter-rouge">data</code> and <code class="language-plaintext highlighter-rouge">notebooks</code></li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">RUN</span> <span class="n">mkdir</span> <span class="o">/</span><span class="n">data</span>
+<span class="n">RUN</span> <span class="n">mkdir</span> <span class="o">/</span><span class="n">notebooks</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Adding a temporary log folder in <code class="language-plaintext highlighter-rouge">/tmp</code>, using:</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">RUN</span> <span class="n">mkdir</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">tflearn_logs</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>Make those three folders as <code class="language-plaintext highlighter-rouge">VOLUMES</code> so that they can be accessible through the host machine too.</p>
+
+    <p>The main reason we have <code class="language-plaintext highlighter-rouge">VOLUMES</code> is that the <code class="language-plaintext highlighter-rouge">data</code> and <code class="language-plaintext highlighter-rouge">notebooks</code> can be shared separately, not through the images that we create (_Docker best practices states that it isn’t good to share data with Images, it could be done but avoided).</p>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">VOLUME</span> <span class="p">[</span><span class="s">"/data"</span><span class="p">,</span> <span class="s">"/notebooks"</span><span class="p">,</span> <span class="s">'/tmp/tflearn_logs'</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>Sometimes we might have installations like <code class="language-plaintext highlighter-rouge">curl</code> or <code class="language-plaintext highlighter-rouge">cron</code> that aren’t exactly in our base image. We’ll <code class="language-plaintext highlighter-rouge">RUN</code> the installations as below:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">RUN</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">cron</span> <span class="o">-</span><span class="n">yqq</span> \
+    <span class="n">curl</span>
+</code></pre></div></div>
+
+<ul>
+  <li>We’ll expose the port:
+    <ul>
+      <li>Other for Jupyter: 8888</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># jupyter
+</span><span class="n">EXPOSE</span> <span class="mi">8888</span>
+</code></pre></div></div>
+
+<ul>
+  <li>We’ll have to make an arrangement somehow to start the jupyter notebook as we run our image. For that, we’ll use <code class="language-plaintext highlighter-rouge">CMD</code> to run our commands:</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">CMD</span> <span class="n">jupyter</span> <span class="n">notebook</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">browser</span> <span class="o">--</span><span class="n">ip</span><span class="o">=</span><span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span> <span class="o">--</span><span class="n">allow</span><span class="o">-</span><span class="n">root</span> <span class="o">--</span><span class="n">NotebookApp</span><span class="p">.</span><span class="n">token</span><span class="o">=</span><span class="s">'demo'</span>
+</code></pre></div></div>
+
+<p>Finally, we have our <em>Dockerfile</em> as below:</p>
+
+<script src="https://gist.github.com/pratos/eafb92540725d8fb81a58d3e5eee126c.js"></script>
+
+<p>We need to build the <em>docker image</em> by running the following command:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">sudo</span><span class="p">)</span> <span class="n">docker</span> <span class="o">-</span><span class="n">t</span> <span class="n">build</span> <span class="o">&lt;</span><span class="n">image</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>A simple inspection (below), would give you the statistics for the image generated:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>user@user:~/docker-demo$ sudo docker images
+REPOSITORY               TAG                 IMAGE ID            CREATED             SIZE
+demoimage                latest              9d556dd63886        9 minutes ago       1.37 GB
+</code></pre></div></div>
+
+<p>Now the real test comes in, we need to test it by running the image and checking whether our volumes work or not!</p>
+
+<p>Follow the commands below:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span> <span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">v</span> <span class="o">~/</span><span class="n">docker</span><span class="o">-</span><span class="n">demo</span><span class="o">/</span><span class="n">notebooks</span><span class="p">:</span><span class="o">/</span><span class="n">notebooks</span> <span class="o">-</span><span class="n">v</span> <span class="o">~/</span><span class="n">docker</span><span class="o">-</span><span class="n">demo</span><span class="o">/</span><span class="n">data</span><span class="p">:</span><span class="o">/</span><span class="n">data</span> \
+        <span class="o">-</span><span class="n">v</span> <span class="o">~/</span><span class="n">docker</span><span class="o">-</span><span class="n">demo</span><span class="o">/</span><span class="n">logs</span><span class="p">:</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">tflearn_logs</span> <span class="o">-</span><span class="n">p</span> <span class="mi">8888</span><span class="p">:</span><span class="mi">8888</span> <span class="o">-</span><span class="n">i</span> <span class="n">demoimage</span>
+</code></pre></div></div>
+
+<p>If you do a <code class="language-plaintext highlighter-rouge">sudo docker ps</code>, you would get the following output:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS              PORTS                                            NAMES
+fadf5e0646d5        demoimage             "/bin/sh -c 'tenso..."   9 seconds ago       Up 8 seconds        0.0.0.0:6006-&gt;6006/tcp, 0.0.0.0:8888-&gt;8888/tcp   clever_payne
+</code></pre></div></div>
+
+<p>So we are all set to test the docker image:</p>
+
+<ul>
+  <li>Fire up the http://localhost:8888 to get the jupyter notebook.</li>
+</ul>
+
+<p>The container and host folders would be synced and persisted, no need to worry about losing the notebook,data and logs.</p>
+
+<p>The last step would be saving this image to DockerHub as a public image or in a private repository to use it later.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Login to DockerHub (_Note: You need to create your DockerHub account first_)
+</span><span class="n">sudo</span> <span class="n">docker</span> <span class="n">login</span>
+</code></pre></div></div>
+
+<p>Once login is succeeded, we need to tag the image and then push the image:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span> <span class="n">docker</span> <span class="n">tag</span> <span class="o">&lt;</span><span class="n">image</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">login</span><span class="o">-</span><span class="nb">id</span><span class="o">&gt;/&lt;</span><span class="n">image</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span>
+<span class="n">sudo</span> <span class="n">docker</span> <span class="n">push</span> <span class="o">&lt;</span><span class="n">login</span><span class="o">-</span><span class="nb">id</span><span class="o">&gt;/&lt;</span><span class="n">image</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>e.g.</p>
+<ul>
+  <li>sudo docker tag demoimage pratos/demoimage</li>
+  <li>sudo docker push pratos/demoimage</li>
+</ul>
+
+<p>So here it is, your very own <em>docker image</em>. My colleague would be happy to see this, like him even you could do more with <em>docker images</em>. Do try this out.</p>
+
+<p>We would be looking at a few more things that <em>Docker</em> offers in the next post. To all the <em>DevOps</em> folks do provide feedback to this post and share it with all of us.</p>
+
+<p><strong>Sources:</strong></p>
+<ol>
+  <li><a href="https://www.digitalocean.com/community/tutorials/docker-explained-using-dockerfiles-to-automate-building-of-images">For more indepth and simple understanding on how to write a Dockerfile</a></li>
+  <li><a href="https://docs.docker.com/">Docker Documentation</a></li>
+</ol>
+
+  </div><a class="u-url" href="/2017/04/24/docker-for-data-science-part-1.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Collection of random stuff that I learn through building and fixing software</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/pratos" target="_blank" title="pratos"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/pratos_" target="_blank" title="pratos_"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
