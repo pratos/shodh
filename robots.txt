@@ -1,1 +1,1 @@
-Sitemap: https://pratos.github.io/shodh/sitemap.xml
+Sitemap: https://blog.shodh.co/sitemap.xml
