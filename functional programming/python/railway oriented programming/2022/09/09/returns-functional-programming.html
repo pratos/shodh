@@ -537,7 +537,7 @@ window.onload = wrap_img;
 <h3 id="How-do-we-bind-these-and-make-sure-that-we-follow-ROP?">
 <a class="anchor" href="#How-do-we-bind-these-and-make-sure-that-we-follow-ROP?" aria-hidden="true"><span class="octicon octicon-link"></span></a>How do we bind these and make sure that we follow ROP?<a class="anchor-link" href="#How-do-we-bind-these-and-make-sure-that-we-follow-ROP?"> </a>
 </h3>
-<p>Two magic keywords: <code>@safe</code> and <code>bind</code> (or <code>flow</code>).</p>
+<p>Two magic keywords: <code>@safe</code>(and/or its variant <code>@impure_safe</code>) and <code>flow</code> (or <code>pipe</code>).</p>
 <ul>
 <li>
 <code>@safe</code> is basically an exception handler decorator. Any exception caught will return a <code>Failure</code> container. For the happy path, we'd have <code>Success</code> container with our output<ul>
