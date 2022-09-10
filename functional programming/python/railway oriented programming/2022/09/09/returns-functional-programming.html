@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Using returns library in Python to do functional programming | prthamesh’s blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Using returns library in Python to do functional programming" />
+<meta name="author" content="Prathamesh Sarang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Working with returns library to improve code readability and tackle error handling" />
+<meta property="og:description" content="Working with returns library to improve code readability and tackle error handling" />
+<link rel="canonical" href="https://pratos.github.io/shodh/functional%20programming/python/railway%20oriented%20programming/2022/09/09/returns-functional-programming.html" />
+<meta property="og:url" content="https://pratos.github.io/shodh/functional%20programming/python/railway%20oriented%20programming/2022/09/09/returns-functional-programming.html" />
+<meta property="og:site_name" content="prthamesh’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-09-09T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Using returns library in Python to do functional programming" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Prathamesh Sarang"},"dateModified":"2022-09-09T00:00:00-05:00","datePublished":"2022-09-09T00:00:00-05:00","description":"Working with returns library to improve code readability and tackle error handling","headline":"Using returns library in Python to do functional programming","mainEntityOfPage":{"@type":"WebPage","@id":"https://pratos.github.io/shodh/functional%20programming/python/railway%20oriented%20programming/2022/09/09/returns-functional-programming.html"},"url":"https://pratos.github.io/shodh/functional%20programming/python/railway%20oriented%20programming/2022/09/09/returns-functional-programming.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/shodh/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://pratos.github.io/shodh/feed.xml" title="prthamesh's blog" /><link rel="shortcut icon" type="image/x-icon" href="/shodh/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/shodh/">prthamesh&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/shodh/about/">About Me</a><a class="page-link" href="/shodh/search/">Search</a><a class="page-link" href="/shodh/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Using returns library in Python to do functional programming</h1><p class="page-description">Working with returns library to improve code readability and tackle error handling</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-09-09T00:00:00-05:00" itemprop="datePublished">
+        Sep 9, 2022
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Prathamesh Sarang</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      9 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/shodh/categories/#functional programming">functional programming</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/shodh/categories/#python">python</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/shodh/categories/#railway oriented programming">railway oriented programming</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-justify-center">
+          <div class="px-2">
+
+    <a href="https://github.com/pratos/shodh/tree/master/_notebooks/10-09-2022-returns-functional-programming.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/shodh/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/pratos/shodh/master?filepath=_notebooks%2F10-09-2022-returns-functional-programming.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/shodh/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/pratos/shodh/blob/master/_notebooks/10-09-2022-returns-functional-programming.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/shodh/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+          <div class="px-2">
+  <a href="https://deepnote.com/launch?url=https%3A%2F%2Fgithub.com%2Fpratos%2Fshodh%2Fblob%2Fmaster%2F_notebooks%2F10-09-2022-returns-functional-programming.ipynb" target="_blank">
+      <img class="notebook-badge-image" src="/shodh/assets/badges/deepnote.svg" alt="Launch in Deepnote"/>
+  </a>
+</div>
+
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Functional-Programming">Functional Programming </a></li>
+<li class="toc-entry toc-h2"><a href="#Did-returns-have-returns?">Did returns have returns? </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#First-impressions-and-Railway-Oriented-Programming-Pattern">First impressions and Railway Oriented Programming Pattern </a></li>
+<li class="toc-entry toc-h3"><a href="#Problem-statement-to-solve">Problem statement to solve </a></li>
+<li class="toc-entry toc-h3"><a href="#How-do-we-bind-these-and-make-sure-that-we-follow-ROP?">How do we bind these and make sure that we follow ROP? </a></li>
+<li class="toc-entry toc-h3"><a href="#How-do-we-fetch-the-output-from-Success-container?">How do we fetch the output from Success container? </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Is-is-any-good-to-use?">Is is any good to use? </a></li>
+<li class="toc-entry toc-h2"><a href="#Appendix">Appendix </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/10-09-2022-returns-functional-programming.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is a personal experience of using <code>returns</code> and trying to learn functional programming paradigms in Python (in a professional setting).</p>
+<h2 id="Functional-Programming">
+<a class="anchor" href="#Functional-Programming" aria-hidden="true"><span class="octicon octicon-link"></span></a>Functional Programming<a class="anchor-link" href="#Functional-Programming"> </a>
+</h2>
+<p>Python doesn't let you write functional code out of the box. There's a good chance, the "functional" code you might write isn't functional. I'm definitely not here to discuss the intricacies of functional programming, just the experiences.</p>
+<p>We are aware of <code>map</code>, <code>filter</code>, <code>functools</code>, <code>itertools</code> and lots of other niceties, which proxies for leveraging nicer parts of functional programming APIs. These let you do the functional things. But I wanted to satisfy my itch for abstractions that would help me leverage functional paradigms more accessible (maybe?). This led me to <a href="https://github.com/dry-python/returns">returns</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Did-returns-have-returns?">
+<a class="anchor" href="#Did-returns-have-returns?" aria-hidden="true"><span class="octicon octicon-link"></span></a>Did <code>returns</code> have returns?<a class="anchor-link" href="#Did-returns-have-returns?"> </a>
+</h2>
+<h3 id="First-impressions-and-Railway-Oriented-Programming-Pattern">
+<a class="anchor" href="#First-impressions-and-Railway-Oriented-Programming-Pattern" aria-hidden="true"><span class="octicon octicon-link"></span></a>First impressions and Railway Oriented Programming Pattern<a class="anchor-link" href="#First-impressions-and-Railway-Oriented-Programming-Pattern"> </a>
+</h3>
+<p><code>returns</code> is a nifty library that helps by providing functional constructs to help write "better" pythonic, functional code.</p>
+<p>I was fascinated by Railway Oriented Programming (ROP) Pattern and frustrated by handling Exceptions in a nice way. Exception Handling is a real pain, when you want to make sure that the right messages and error code bubble up from the deep recesses of your controllers and services.</p>
+<p>When an opportunity arose, I jumped at using <code>returns</code>. As a team, we had planned to use <code>returns</code>, but our attempts were half hearted at best. Using <code>returns</code> was a rocky, but enlightening experience.</p>
+<p>Though I can't reveal the actual code, let me take you through a usage for <code>returns</code>. But first a tldr on Railway Oriented Programming Pattern</p>
+<blockquote>
+<p>Many examples in functional programming assume that you are always on the “happy path”. But to create a robust real world application you must deal with validation, logging, network and service errors, and other annoyances. So, how do you handle all this in a clean functional way? - F# For Fun and Profit</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%html</span>
+<span class="p">&lt;</span><span class="nt">image</span> <span class="na">src</span><span class="o">=</span><span class="s">"https://miro.medium.com/max/1400/1*6bzo0qxaFYMCfYGuz7O4qw.png"</span><span class="p">/&gt;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<image src="https://miro.medium.com/max/1400/1*6bzo0qxaFYMCfYGuz7O4qw.png"></image>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In short, ROP tells us to:</p>
+<ul>
+<li>Create some sort of <code>Result</code> type that defines a <code>2 Track Output</code> == <code>Union[Success, Failure]</code>
+</li>
+<li>Use a <code>bind</code> function to convert all our functions to a two track output (even if they can't throw errors)</li>
+<li>Compose all your functions via pipes</li>
+<li>Add nice <code>Error</code> types as your write and refactor your code to handle those pesky <code>Failures</code>
+</li>
+</ul>
+<p><code>returns</code> provides all of that in nicely packages containers with similar names like <code>Result</code>, <code>Success</code> and <code>Failure</code> (There's more but for scope we won't be covering the rest). <code>returns</code> readme has an excellent example on how to use those, the example used here is a modfied version.</p>
+<h3 id="Problem-statement-to-solve">
+<a class="anchor" href="#Problem-statement-to-solve" aria-hidden="true"><span class="octicon octicon-link"></span></a>Problem statement to solve<a class="anchor-link" href="#Problem-statement-to-solve"> </a>
+</h3>
+<p>We'll be fetching data from football (soccer 👀) player data from <a href="https://fbref.com">fbref</a>. We'll be extracting the data from html tables on the page and store it in a csv. Let's start by fetching Arsenal's 2022-23 season data via this url: <a href="https://fbref.com/en/squads/18bb7c10/Arsenal-Stats">link</a></p>
+<p>Let's layout the steps that we'll need to perform inorder to get from our html page to a csv:</p>
+<ul>
+<li>Fetch the html content via <code>requests</code>
+</li>
+<li>Convert the html content to a <code>BeautifulSoup</code> for further extraction</li>
+<li>Extract all the tables and combine all the statistics into one table</li>
+<li>Save the table to a csv</li>
+</ul>
+<p>To simplify a few steps and for brevity, we'll be skipping a lot of the stats mapping code.</p>
+<p>Make sure you install <code>returns</code> in your <em>venv</em>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">version</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'3.10.4 (main, Jun  1 2022, 18:38:27) [Clang 13.0.1 ]'</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Below is the code to parse data, you can skip this if you like</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">from</span> <span class="nn">loguru</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">returns.result</span> <span class="kn">import</span> <span class="n">Result</span><span class="p">,</span> <span class="n">Success</span><span class="p">,</span> <span class="n">Failure</span>
+
+<span class="k">def</span> <span class="nf">formatter</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="nb">int</span><span class="o">|</span><span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="o">|</span><span class="nb">float</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+    <span class="k">return</span> <span class="n">literal_eval</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">List</span>
+<span class="k">class</span> <span class="nc">TableId</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">standard_stats</span> <span class="o">=</span> <span class="s2">"stats_standard_9"</span>
+    
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">validator</span>
+<span class="kn">from</span> <span class="nn">ast</span> <span class="kn">import</span> <span class="n">literal_eval</span>
+
+<span class="n">Nation</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"ENG"</span><span class="p">,</span> <span class="s2">"FRA"</span><span class="p">,</span> <span class="s2">"BRA"</span><span class="p">,</span> <span class="s2">"NOR"</span><span class="p">,</span> <span class="s2">"SUI"</span><span class="p">,</span> <span class="s2">"UKR"</span><span class="p">,</span> <span class="s2">"GHA"</span><span class="p">,</span> <span class="s2">"SCO"</span><span class="p">,</span> <span class="s2">"BEL"</span><span class="p">,</span> <span class="s2">"EGY"</span><span class="p">,</span> <span class="s2">"JPN"</span><span class="p">,</span>
+                <span class="s2">"POR"</span><span class="p">,</span> <span class="s2">"CIV"</span><span class="p">,</span> <span class="s2">"USA"</span><span class="p">]</span>
+<span class="n">Position</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"GK"</span><span class="p">,</span> <span class="s2">"DF"</span><span class="p">,</span> <span class="s2">"MF"</span><span class="p">,</span> <span class="s2">"FW"</span><span class="p">]</span>
+
+<span class="k">class</span> <span class="nc">Age</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">year</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">months</span><span class="p">:</span> <span class="nb">int</span>
+        
+    <span class="nd">@validator</span><span class="p">(</span><span class="s2">"*"</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">always</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">formatter</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.0</span>
+        <span class="k">return</span> <span class="n">literal_eval</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">"0"</span><span class="p">))</span>
+    
+    <span class="nd">@validator</span><span class="p">(</span><span class="s2">"months"</span><span class="p">,</span> <span class="n">always</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">age_convertor</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">v</span> <span class="o">/</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">BasicProfile</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">player_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">nation</span><span class="p">:</span> <span class="n">Nation</span>
+    <span class="n">position</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Position</span><span class="p">]</span>
+    <span class="n">age</span><span class="p">:</span> <span class="n">Age</span>
+        
+
+<span class="k">class</span> <span class="nc">PlayingTime</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">matches_played</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">minutes_played</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">starts</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">nineties</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="n">_formatter</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">"*"</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">formatter</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Performance</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">goals_scored_or_allowed</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">assists</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">non_penalty_goals</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">penalties</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">yellow_cards</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">red_cards</span><span class="p">:</span> <span class="nb">int</span>
+    
+    <span class="n">_formatter</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">"*"</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">formatter</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">PerformancePer90</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">goals</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">assists</span><span class="p">:</span> <span class="nb">float</span>
+    
+    <span class="n">_formatter</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">"*"</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">formatter</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">XPPerformance</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">expected_goals</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">non_penalty_expected_goals</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">expected_assists</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">non_penalty_goals_expected_and_assists</span><span class="p">:</span> <span class="nb">float</span>
+    
+    <span class="n">_formatter</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">"*"</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">formatter</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">XPPerformancePer90</span><span class="p">(</span><span class="n">XPPerformance</span><span class="p">):</span>
+    <span class="k">pass</span>
+        
+
+<span class="k">class</span> <span class="nc">StandardStats</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">player_profile</span><span class="p">:</span> <span class="n">BasicProfile</span>
+    <span class="n">playing_time_overall</span><span class="p">:</span> <span class="n">PlayingTime</span>
+    <span class="n">player_performance</span><span class="p">:</span> <span class="n">Performance</span>
+    <span class="n">player_performance_per_90</span><span class="p">:</span> <span class="n">PerformancePer90</span>
+    <span class="n">player_xp</span><span class="p">:</span> <span class="n">XPPerformance</span>
+    <span class="n">player_xp_per_90</span><span class="p">:</span> <span class="n">XPPerformancePer90</span>
+
+<span class="n">arsenal_url</span> <span class="o">=</span> <span class="s2">"https://fbref.com/en/squads/18bb7c10/Arsenal-Stats"</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fetch_html_content</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="n">AnyHttpUrl</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BeautifulSoup</span><span class="p">:</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="s2">"html.parser"</span><span class="p">)</span>
+
+<span class="n">html_data</span> <span class="o">=</span> <span class="n">fetch_html_content</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">arsenal_url</span><span class="p">)</span>
+
+<span class="o">*</span> <span class="n">Extracting</span> <span class="nb">all</span> <span class="n">the</span> <span class="n">tables</span>
+    <span class="o">-</span> <span class="n">We</span><span class="s1">'ll just extract one for brevity</span>
+    <span class="o">-</span> <span class="n">Excuse</span> <span class="n">the</span> <span class="n">multiple</span> <span class="nb">list</span> <span class="n">comprehensions</span><span class="p">,</span> <span class="n">isn</span><span class="s1">'t optimized 😬</span>
+
+<span class="c1">#collapse-hide</span>
+<span class="k">def</span> <span class="nf">extract_and_format_fbref_data</span><span class="p">(</span><span class="n">table_id</span><span class="p">:</span> <span class="n">TableId</span><span class="p">,</span> <span class="n">html_data</span><span class="p">:</span> <span class="n">BeautifulSoup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">StandardStats</span><span class="p">]:</span>
+    <span class="n">standard_stats_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">standard_stats_table</span> <span class="o">=</span> <span class="n">html_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">table_id</span><span class="p">)</span>
+    <span class="n">standard_stats_table</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s2">"caption"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
+    <span class="n">table_headers</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">standard_stats_table</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s2">"tr"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">row</span> <span class="o">!=</span> <span class="s1">' '</span><span class="p">]</span>
+    <span class="n">table_data</span> <span class="o">=</span> <span class="n">standard_stats_table</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s2">"tbody"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">table_data</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s2">"tr"</span><span class="p">)):</span>
+        <span class="n">stripped_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span>
+        <span class="n">age</span> <span class="o">=</span> <span class="n">Age</span><span class="p">(</span>
+            <span class="n">year</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"-"</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> 
+            <span class="n">months</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"-"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">basic_profile</span> <span class="o">=</span> <span class="n">BasicProfile</span><span class="p">(</span>
+            <span class="n">age</span><span class="o">=</span><span class="n">age</span><span class="p">,</span>
+            <span class="n">player_name</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">nation</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" "</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">position</span><span class="o">=</span><span class="p">[</span><span class="n">pos</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">stripped_data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)]</span>
+        <span class="p">)</span>
+        <span class="n">playing_time</span> <span class="o">=</span> <span class="n">PlayingTime</span><span class="p">(</span>
+            <span class="n">matches_played</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> 
+            <span class="n">starts</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> 
+            <span class="n">minutes_played</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> 
+            <span class="n">nineties</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">performance</span> <span class="o">=</span> <span class="n">Performance</span><span class="p">(</span>
+            <span class="n">goals_scored_or_allowed</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> 
+            <span class="n">assists</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> 
+            <span class="n">non_penalty_goals</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span> 
+            <span class="n">penalties</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> 
+            <span class="n">yellow_cards</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span> 
+            <span class="n">red_cards</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">performance_per90</span> <span class="o">=</span> <span class="n">PerformancePer90</span><span class="p">(</span>
+            <span class="n">goals</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">15</span><span class="p">],</span> 
+            <span class="n">assists</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">16</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">xp_performance</span> <span class="o">=</span> <span class="n">XPPerformance</span><span class="p">(</span>
+            <span class="n">expected_goals</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">20</span><span class="p">],</span>
+            <span class="n">non_penalty_expected_goals</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">21</span><span class="p">],</span>
+            <span class="n">expected_assists</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">22</span><span class="p">],</span>
+            <span class="n">non_penalty_goals_expected_and_assists</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">23</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">xp_performance_per90</span> <span class="o">=</span> <span class="n">XPPerformancePer90</span><span class="p">(</span>
+            <span class="n">expected_goals</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">24</span><span class="p">],</span>
+            <span class="n">non_penalty_expected_goals</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">25</span><span class="p">],</span>
+            <span class="n">expected_assists</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">26</span><span class="p">],</span>
+            <span class="n">non_penalty_goals_expected_and_assists</span><span class="o">=</span><span class="n">stripped_data</span><span class="p">[</span><span class="mi">27</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">standard_stats</span> <span class="o">=</span> <span class="n">StandardStats</span><span class="p">(</span>
+            <span class="n">player_profile</span><span class="o">=</span><span class="n">basic_profile</span><span class="p">,</span>
+            <span class="n">playing_time_overall</span><span class="o">=</span><span class="n">playing_time</span><span class="p">,</span>
+            <span class="n">player_performance</span><span class="o">=</span><span class="n">performance</span><span class="p">,</span>
+            <span class="n">player_performance_per_90</span><span class="o">=</span><span class="n">performance_per90</span><span class="p">,</span>
+            <span class="n">player_xp</span><span class="o">=</span><span class="n">xp_performance</span><span class="p">,</span>
+            <span class="n">player_xp_per_90</span><span class="o">=</span><span class="n">xp_performance_per90</span>
+        <span class="p">)</span>
+        <span class="n">standard_stats_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">standard_stats</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">standard_stats_list</span>
+
+<span class="n">parsed_data</span> <span class="o">=</span> <span class="n">extract_and_format_fbref_data</span><span class="p">(</span><span class="n">table_id</span><span class="o">=</span><span class="n">TableId</span><span class="o">.</span><span class="n">standard_stats</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">html_data</span><span class="o">=</span><span class="n">html_data</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="k">class</span> <span class="nc">JsonWriter</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">StandardStats</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span>
+    
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">([</span><span class="n">stat</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">],</span> <span class="n">json_file</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">save_data</span><span class="p">(</span><span class="n">writer</span><span class="p">:</span> <span class="n">CSVWriter</span> <span class="o">|</span> <span class="n">JsonWriter</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">StandardStats</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">writer_inst</span> <span class="o">=</span> <span class="n">writer</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">writer_inst</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"Successfully saved data to </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="n">save_data</span><span class="p">(</span><span class="n">JsonWriter</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">"../data/arsenal_standard_stats.json"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'Successfully saved data to ../data/arsenal_standard_stats.json'</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="How-do-we-bind-these-and-make-sure-that-we-follow-ROP?">
+<a class="anchor" href="#How-do-we-bind-these-and-make-sure-that-we-follow-ROP?" aria-hidden="true"><span class="octicon octicon-link"></span></a>How do we bind these and make sure that we follow ROP?<a class="anchor-link" href="#How-do-we-bind-these-and-make-sure-that-we-follow-ROP?"> </a>
+</h3>
+<p>Two magic keywords: <code>@safe</code> and <code>bind</code> (or <code>flow</code>).</p>
+<ul>
+<li>
+<code>@safe</code> is basically an exception handler decorator. Any exception caught will return a <code>Failure</code> container. For the happy path, we'd have <code>Success</code> container with our output<ul>
+<li>There's also <code>@impure_safe</code> which is a more explicit way to tell readers that this piece of code might fail or result might be different for the same request. DB Query, API calls, etc</li>
+</ul>
+</li>
+<li>
+<code>flow</code> (or <code>pipe</code>) act as pipelines for stiching functions together using <code>bind</code>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">returns.pipeline</span> <span class="kn">import</span> <span class="n">flow</span>
+<span class="kn">from</span> <span class="nn">returns.pointfree</span> <span class="kn">import</span> <span class="n">bind</span>
+<span class="kn">from</span> <span class="nn">returns.result</span> <span class="kn">import</span> <span class="n">safe</span>
+<span class="kn">from</span> <span class="nn">returns.io</span> <span class="kn">import</span> <span class="n">impure_safe</span><span class="p">,</span> <span class="n">IOResult</span>
+<span class="kn">from</span> <span class="nn">returns.curry</span> <span class="kn">import</span> <span class="n">curry</span>
+
+<span class="nd">@impure_safe</span>
+<span class="k">def</span> <span class="nf">fetch_html_content</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="n">AnyHttpUrl</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BeautifulSoup</span><span class="p">:</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="s2">"html.parser"</span><span class="p">)</span>
+ 
+<span class="nd">@safe</span>
+<span class="k">def</span> <span class="nf">extract_and_format_fbref_data</span><span class="p">(</span><span class="n">table_id</span><span class="p">:</span> <span class="n">TableId</span><span class="p">,</span> <span class="n">html_data</span><span class="p">:</span> <span class="n">BeautifulSoup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">StandardStats</span><span class="p">]:</span>
+    <span class="n">standard_stats_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="o">...</span>
+    <span class="k">return</span> <span class="n">standard_stats_list</span>
+
+<span class="nd">@safe</span>
+<span class="k">def</span> <span class="nf">save_data</span><span class="p">(</span><span class="n">writer</span><span class="p">:</span> <span class="n">CSVWriter</span> <span class="o">|</span> <span class="n">JsonWriter</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">StandardStats</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">writer_inst</span> <span class="o">=</span> <span class="n">writer</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">writer_inst</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"Successfully saved data to </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="k">def</span> <span class="nf">fetch_standard_stats</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="n">AnyHttpUrl</span><span class="p">,</span> <span class="n">table_id</span><span class="p">:</span> <span class="n">TableId</span><span class="p">,</span> <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IOResult</span><span class="p">[</span><span class="n">Success</span><span class="p">,</span> <span class="n">Failure</span><span class="p">]:</span>
+    <span class="k">return</span> <span class="n">flow</span><span class="p">(</span>
+        <span class="n">url</span><span class="p">,</span>
+        <span class="n">fetch_html_content</span><span class="p">,</span>
+        <span class="n">bind</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">extract_and_format_fbref_data</span><span class="p">,</span> <span class="n">table_id</span><span class="p">)),</span>
+        <span class="n">bind</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">save_data</span><span class="p">,</span> <span class="n">JsonWriter</span><span class="p">),</span> <span class="n">output_path</span><span class="p">))</span>
+    <span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let me lay out the <code>flow</code> pipeline in <code>fetch_standard_stats</code>:</p>
+<ul>
+<li>
+<code>flow</code> is a pipeline that takes in the attribute(s) (<code>url</code> here) for the first function: <code>fetch_html_content</code>. </li>
+<li>The first function throws out a <code>Success</code> container (if no exceptions) that is consumed by <code>extract_and_format_fbref_data</code>. Since the 2nd function has multiple arguments, we are using <code>partial</code> to bind together arguments. </li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bind</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">extract_and_format_fbref_data</span><span class="p">,</span> <span class="n">table_id</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Above is equivalent to:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">function_1</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">extract_and_format_fbref_data</span><span class="p">,</span> <span class="n">table_id</span><span class="p">)</span>
+<span class="n">function_2</span> <span class="o">=</span> <span class="n">bind</span><span class="p">(</span><span class="n">function_1</span><span class="p">,</span> <span class="s1">'Success: html_data'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<code>function_2</code> above will emit: <code>Success: parsed_data</code> which would be input for the next bind function.</li>
+</ul>
+<p>A successful outcome would be as below</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fetch_standard_stats</span><span class="p">(</span>
+    <span class="n">arsenal_url</span><span class="p">,</span>
+    <span class="n">TableId</span><span class="o">.</span><span class="n">standard_stats</span><span class="p">,</span>
+    <span class="s2">"../data/arsenal_standard_stats.json"</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;Success: Successfully saved data to ../data/arsenal_standard_stats.json&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If we mess up something in the <code>arsenal_url</code>? Let's check what the output would be:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fetch_standard_stats</span><span class="p">(</span><span class="s2">"https://localhost:9200"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;Failure: HTTPSConnectionPool(host='localhost', port=9200): Max retries exceeded with url: / (Caused by SSLError(SSLError(1, '[SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:997)')))&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As expected, we get a <code>HTTPSConnectionPool</code> error that we get out without writing excessive <code>try-catch</code> blocks. We can easily bubble these errors 2-3 levels up using bindings and making the code cleaner.</p>
+<p>At any step of the pipeline, <code>Failure</code> container would throw a nice message and we can do the rest. Obviously, there's a few more nuanced implementations for complex pipelines. E.g. While doing a DB operation if the query sends no result or API request is unsuccessful with a valid status code. All those might need more rejig of the code.</p>
+<h3 id="How-do-we-fetch-the-output-from-Success-container?">
+<a class="anchor" href="#How-do-we-fetch-the-output-from-Success-container?" aria-hidden="true"><span class="octicon octicon-link"></span></a>How do we fetch the output from <code>Success</code> container?<a class="anchor-link" href="#How-do-we-fetch-the-output-from-Success-container?"> </a>
+</h3>
+<p>In our case, the final step throws a <code>Success</code> container with response <code>str</code> embedded. If we want to send this result back via API or do another set of operations on it, it is easy to do with <code>result._inner_value</code></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">success_result</span> <span class="o">=</span> <span class="n">fetch_standard_stats</span><span class="p">(</span>
+    <span class="n">arsenal_url</span><span class="p">,</span>
+    <span class="n">TableId</span><span class="o">.</span><span class="n">standard_stats</span><span class="p">,</span>
+    <span class="s2">"../data/arsenal_standard_stats.json"</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">success_result</span><span class="o">.</span><span class="n">_inner_value</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'Successfully saved data to ../data/arsenal_standard_stats.json'</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>._inner_value</code> could be anything that you want to share: <em>dict, str, Object, Query row, json</em>. This opens up a lot of avenues to play around with <code>pydantic</code> Models or <code>dataclasses</code> that help standardize API responses, sql orm models!</p>
+<h2 id="Is-is-any-good-to-use?">
+<a class="anchor" href="#Is-is-any-good-to-use?" aria-hidden="true"><span class="octicon octicon-link"></span></a>Is is any good to use?<a class="anchor-link" href="#Is-is-any-good-to-use?"> </a>
+</h2>
+<p><code>returns</code> doesn't have a great documentation. It would be hard to blame the maintainers coz one needs to atleast understand basics of functional programming (<code>currying</code>, <code>partial</code>, <code>Optional</code>, <code>Maybe</code> containers). A comprehensive documentation/examples about more real life usage could help more non-chad devs like us.</p>
+<p>Combined with <code>OOPS</code>, <code>returns</code> would definitely be an alternative to write cleaner, readable code. One could also ditch <code>returns</code> entirely and work with <code>functools</code>, <code>dataclasses</code> and <code>types</code> in python to write similar helpers, decorators in vanilla python. Maybe that could be another blog post.</p>
+<p>The above code surely can be much better, still improving on how to write code. Would love to hear feedback on the code and this blogpost!</p>
+<h2 id="Appendix">
+<a class="anchor" href="#Appendix" aria-hidden="true"><span class="octicon octicon-link"></span></a>Appendix<a class="anchor-link" href="#Appendix"> </a>
+</h2>
+<ul>
+<li><a href="">Functional programming: Computerphile</a></li>
+<li><a href="https://docs.python.org/3/library/functools.html#functools.partial">functools.partial</a></li>
+<li><a href="https://www.youtube.com/watch?v=yk-IXz0DjTY">3 Simple ideas from functional programming to improve your code - Arjan Codes</a></li>
+<li><a href="https://www.youtube.com/watch?v=yk-IXz0DjTY">Functional Programming in Python: Currying</a></li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="pratos/shodh"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/shodh/functional%20programming/python/railway%20oriented%20programming/2022/09/09/returns-functional-programming.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/shodh/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/shodh/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/shodh/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Collection of random stuff that I learn through building and fixing software</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/pratos" target="_blank" title="pratos"><svg class="svg-icon grey"><use xlink:href="/shodh/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/pratos_" target="_blank" title="pratos_"><svg class="svg-icon grey"><use xlink:href="/shodh/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
