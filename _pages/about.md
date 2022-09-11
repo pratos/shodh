@@ -4,8 +4,8 @@ title: About Me
 permalink: /about/
 ---
 
-This website is powered by **[fastpages](https://github.com/fastai/fastpages)** [^1].
+I'm a software engineer by profession. I wanted to become an advertising guy in the near past, but fate chose me to grind in front of the computer.
 
+Long suffering Mumbaikar and Arsenal fan. Current interests outside of work are watching football matches, pouring over fbref data and tinkering with my FPL team.
 
-
-[^1]:a blogging platform that natively supports Jupyter notebooks in addition to other formats.
+For my life after software engineer, would love to work as a barber or historian at a university.
